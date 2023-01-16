@@ -1,9 +1,9 @@
 {
-  "name": "@uniswap/hardhat-v3-deploy",
+  "name": "@violetprotocol/mauve-deploy",
   "version": "0.1.1",
-  "description": "Hardhat plugin for Uniswap V3 deployment",
-  "repository": "github:Uniswap/hardhat-v3-deploy",
-  "author": "Omar Bohsali",
+  "description": "Hardhat plugin for Mauve deployment",
+  "repository": "github:violetprotocol/mauve-deploy",
+  "author": "Violet Protocol",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
