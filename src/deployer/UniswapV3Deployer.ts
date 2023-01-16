@@ -5,6 +5,7 @@ import WETH9 from "../util/WETH9.json";
 type ContractJson = { abi: any; bytecode: string };
 const artifacts: { [name: string]: ContractJson } = {
   UniswapV3Factory: require("@uniswap/v3-core/artifacts/contracts/UniswapV3Factory.sol/UniswapV3Factory.json"),
+  Quoter: require("@uniswap/swap-router-contracts/artifacts/contracts/lens/Quoter.sol/Quoter.json"),
   SwapRouter: require("@uniswap/v3-periphery/artifacts/contracts/SwapRouter.sol/SwapRouter.json"),
   NFTDescriptor: require("@uniswap/v3-periphery/artifacts/contracts/libraries/NFTDescriptor.sol/NFTDescriptor.json"),
   NonfungibleTokenPositionDescriptor: require("@uniswap/v3-periphery/artifacts/contracts/NonfungibleTokenPositionDescriptor.sol/NonfungibleTokenPositionDescriptor.json"),
@@ -23,6 +24,7 @@ export class UniswapV3Deployer {
     const weth9 = await deployer.deployWETH9();
     const factory = await deployer.deployFactory();
     const router = await deployer.deployRouter(factory.address, weth9.address);
+    const quoter = await deployer.deployQuoter(factory.address, weth9.address);
     const nftDescriptorLibrary = await deployer.deployNFTDescriptorLibrary();
     const positionDescriptor = await deployer.deployPositionDescriptor(
       nftDescriptorLibrary.address,
@@ -38,6 +40,7 @@ export class UniswapV3Deployer {
       weth9,
       factory,
       router,
+      quoter,
       nftDescriptorLibrary,
       positionDescriptor,
       positionManager,
@@ -77,6 +80,15 @@ export class UniswapV3Deployer {
     );
   }
 
+  async deployQuoter(factoryAddress: string, weth9Address: string) {
+    return await this.deployContract<Contract>(
+      artifacts.Quoter.abi,
+      artifacts.Quoter.bytecode,
+      [factoryAddress, weth9Address],
+      this.deployer
+    );
+  }
+
   async deployNFTDescriptorLibrary() {
     return await this.deployContract<Contract>(
       artifacts.NFTDescriptor.abi,
@@ -98,7 +110,7 @@ export class UniswapV3Deployer {
             NFTDescriptor: [
               {
                 length: 20,
-                start: 1261,
+                start: 1681, // old value is 1261
               },
             ],
           },
@@ -112,7 +124,11 @@ export class UniswapV3Deployer {
     return (await this.deployContract(
       artifacts.NonfungibleTokenPositionDescriptor.abi,
       linkedBytecode,
-      [weth9Address],
+      // 'ETH' as a bytes32 string
+      [
+        weth9Address,
+        "0x4554480000000000000000000000000000000000000000000000000000000000",
+      ],
       this.deployer
     )) as Contract;
   }
