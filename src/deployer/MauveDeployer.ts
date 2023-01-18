@@ -21,9 +21,9 @@ const artifacts: { [name: string]: ContractJson } = {
 
 const uniswapV2Factory = "0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f";
 
-export class UniswapV3Deployer {
+export class MauveDeployer {
   static async deploy(actor: Signer): Promise<{ [name: string]: Contract }> {
-    const deployer = new UniswapV3Deployer(actor);
+    const deployer = new MauveDeployer(actor);
 
     const weth9 = await deployer.deployWETH9();
     const factory = await deployer.deployFactory();

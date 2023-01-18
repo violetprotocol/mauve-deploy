@@ -4,11 +4,11 @@ import "./type-extensions";
 
 import Table from "cli-table3";
 
-import { UniswapV3Deployer } from "./deployer/UniswapV3Deployer";
+import { MauveDeployer } from "./deployer/MauveDeployer";
 
-task("deploy-uniswap", "Deploys Uniswap V3 contracts", async (args, hre) => {
+task("deploy-mauve", "Deploys Mauve contracts", async (args, hre) => {
   const [actor] = await hre.ethers.getSigners();
-  const contracts = await UniswapV3Deployer.deploy(actor);
+  const contracts = await MauveDeployer.deploy(actor);
 
   const table = new Table({
     head: ["Contract", "Address"],
