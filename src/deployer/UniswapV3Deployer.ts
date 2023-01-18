@@ -8,6 +8,7 @@ const artifacts: { [name: string]: ContractJson } = {
   Quoter: require("@uniswap/swap-router-contracts/artifacts/contracts/lens/Quoter.sol/Quoter.json"),
   QuoterV2: require("@uniswap/swap-router-contracts/artifacts/contracts/lens/QuoterV2.sol/QuoterV2.json"),
   SwapRouter: require("@uniswap/v3-periphery/artifacts/contracts/SwapRouter.sol/SwapRouter.json"),
+  SwapRouter02: require("@uniswap/swap-router-contracts/artifacts/contracts/SwapRouter02.sol/SwapRouter02.json"),
   NFTDescriptor: require("@uniswap/v3-periphery/artifacts/contracts/libraries/NFTDescriptor.sol/NFTDescriptor.json"),
   NonfungibleTokenPositionDescriptor: require("@uniswap/v3-periphery/artifacts/contracts/NonfungibleTokenPositionDescriptor.sol/NonfungibleTokenPositionDescriptor.json"),
   NonfungiblePositionManager: require("@uniswap/v3-periphery/artifacts/contracts/NonfungiblePositionManager.sol/NonfungiblePositionManager.json"),
@@ -17,6 +18,8 @@ const artifacts: { [name: string]: ContractJson } = {
 // TODO: Should replace these with the proper typechain output.
 // type INonfungiblePositionManager = Contract;
 // type IUniswapV3Factory = Contract;
+
+const uniswapV2Factory = "0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f";
 
 export class UniswapV3Deployer {
   static async deploy(actor: Signer): Promise<{ [name: string]: Contract }> {
@@ -41,10 +44,18 @@ export class UniswapV3Deployer {
       positionDescriptor.address
     );
 
+    const router02 = await deployer.deployRouter02(
+      uniswapV2Factory,
+      factory.address,
+      positionManager.address,
+      weth9.address
+    );
+
     return {
       weth9,
       factory,
       router,
+      router02,
       quoter,
       quoterV2,
       nftDescriptorLibrary,
@@ -82,6 +93,25 @@ export class UniswapV3Deployer {
       artifacts.SwapRouter.abi,
       artifacts.SwapRouter.bytecode,
       [factoryAddress, weth9Address],
+      this.deployer
+    );
+  }
+
+  async deployRouter02(
+    factoryV2Address: string,
+    factoryV3Address: string,
+    positionManagerAddress: string,
+    weth9Address: string
+  ) {
+    return await this.deployContract<Contract>(
+      artifacts.SwapRouter02.abi,
+      artifacts.SwapRouter02.bytecode,
+      [
+        factoryV2Address,
+        factoryV3Address,
+        positionManagerAddress,
+        weth9Address,
+      ],
       this.deployer
     );
   }
