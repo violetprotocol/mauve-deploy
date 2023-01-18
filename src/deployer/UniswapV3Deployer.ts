@@ -6,6 +6,7 @@ type ContractJson = { abi: any; bytecode: string };
 const artifacts: { [name: string]: ContractJson } = {
   UniswapV3Factory: require("@uniswap/v3-core/artifacts/contracts/UniswapV3Factory.sol/UniswapV3Factory.json"),
   Quoter: require("@uniswap/swap-router-contracts/artifacts/contracts/lens/Quoter.sol/Quoter.json"),
+  QuoterV2: require("@uniswap/swap-router-contracts/artifacts/contracts/lens/QuoterV2.sol/QuoterV2.json"),
   SwapRouter: require("@uniswap/v3-periphery/artifacts/contracts/SwapRouter.sol/SwapRouter.json"),
   NFTDescriptor: require("@uniswap/v3-periphery/artifacts/contracts/libraries/NFTDescriptor.sol/NFTDescriptor.json"),
   NonfungibleTokenPositionDescriptor: require("@uniswap/v3-periphery/artifacts/contracts/NonfungibleTokenPositionDescriptor.sol/NonfungibleTokenPositionDescriptor.json"),
@@ -25,6 +26,10 @@ export class UniswapV3Deployer {
     const factory = await deployer.deployFactory();
     const router = await deployer.deployRouter(factory.address, weth9.address);
     const quoter = await deployer.deployQuoter(factory.address, weth9.address);
+    const quoterV2 = await deployer.deployQuoterV2(
+      factory.address,
+      weth9.address
+    );
     const nftDescriptorLibrary = await deployer.deployNFTDescriptorLibrary();
     const positionDescriptor = await deployer.deployPositionDescriptor(
       nftDescriptorLibrary.address,
@@ -41,6 +46,7 @@ export class UniswapV3Deployer {
       factory,
       router,
       quoter,
+      quoterV2,
       nftDescriptorLibrary,
       positionDescriptor,
       positionManager,
@@ -84,6 +90,15 @@ export class UniswapV3Deployer {
     return await this.deployContract<Contract>(
       artifacts.Quoter.abi,
       artifacts.Quoter.bytecode,
+      [factoryAddress, weth9Address],
+      this.deployer
+    );
+  }
+
+  async deployQuoterV2(factoryAddress: string, weth9Address: string) {
+    return await this.deployContract<Contract>(
+      artifacts.QuoterV2.abi,
+      artifacts.QuoterV2.bytecode,
       [factoryAddress, weth9Address],
       this.deployer
     );
