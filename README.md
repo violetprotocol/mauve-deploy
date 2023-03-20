@@ -42,6 +42,7 @@ of a project called `mauve-v3-periphery`
 Please pay attention to the folder structure of this example, as it will come in handy in case your
 folders are organized somewhat differently:
 
+```sh
 ./mauve-deploy
 ├── LICENSE
 ├── README.md
@@ -71,6 +72,7 @@ folders are organized somewhat differently:
 ├── typechain
 ├── yarn-error.log
 └── yarn.lock
+```
 
 On `mauve-v3-periphery` we will add mauve-deploy to be able to use it and deploy our contracts with:
 
