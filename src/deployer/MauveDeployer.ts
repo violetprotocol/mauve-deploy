@@ -1,5 +1,6 @@
 import { Signer, Contract, ContractFactory } from "ethers";
 import { linkLibraries } from "../util/linkLibraries";
+import { positionManagerBytes32, swapRouterBytes32 } from "../util/roles";
 import WETH9 from "../util/WETH9.json";
 
 type ContractJson = { abi: any; bytecode: string };
@@ -48,7 +49,8 @@ export class MauveDeployer {
     const positionManager = await deployer.deployNonfungiblePositionManager(
       factory.address,
       WETH9Address,
-      positionDescriptor.address
+      positionDescriptor.address,
+      EATVerifier
     );
 
     console.log("deployed posman");
@@ -60,7 +62,8 @@ export class MauveDeployer {
     );
     console.log("deployed router02");
 
-    await factory.setSwapRouter(router02.address);
+    await factory.setRole(router02.address, swapRouterBytes32);
+    await factory.setRole(positionManager.address, positionManagerBytes32);
 
     return {
       // weth9,
@@ -192,12 +195,18 @@ export class MauveDeployer {
   async deployNonfungiblePositionManager(
     factoryAddress: string,
     weth9Address: string,
-    positionDescriptorAddress: string
+    positionDescriptorAddress: string,
+    EATVerifierAddress: string
   ) {
     return await this.deployContract<Contract>(
       artifacts.NonfungiblePositionManager.abi,
       artifacts.NonfungiblePositionManager.bytecode,
-      [factoryAddress, weth9Address, positionDescriptorAddress],
+      [
+        factoryAddress,
+        weth9Address,
+        positionDescriptorAddress,
+        EATVerifierAddress,
+      ],
       this.deployer
     );
   }
