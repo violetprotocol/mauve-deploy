@@ -1,6 +1,6 @@
-# @uniswap/hardhat-v3-deploy
+# Mauve Deploy
 
-Deploy Uniswap V3 contracts in development.
+Deploy Mauve contracts in development.
 
 ## Installation
 

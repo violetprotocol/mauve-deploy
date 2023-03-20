@@ -48,9 +48,9 @@
     "hardhat": "^2.0.0"
   },
   "dependencies": {
-    "@uniswap/swap-router-contracts": "^1.3.0",
-    "@uniswap/v3-core": "^1.0.1",
-    "@uniswap/v3-periphery": "^1.4.3",
+    "@violetprotocol/mauve-swap-router-contracts": "1.5.0",
+    "@violetprotocol/mauve-v3-core": "1.2.1",
+    "@violetprotocol/mauve-v3-periphery": "1.8.0",
     "cli-table3": "^0.6.0"
   }
 }

@@ -4,11 +4,11 @@ import WETH9 from "../util/WETH9.json";
 
 type ContractJson = { abi: any; bytecode: string };
 const artifacts: { [name: string]: ContractJson } = {
-  UniswapV3Factory: require("@uniswap/v3-core/artifacts/contracts/UniswapV3Factory.sol/UniswapV3Factory.json"),
-  Quoter: require("@uniswap/swap-router-contracts/artifacts/contracts/lens/Quoter.sol/Quoter.json"),
-  QuoterV2: require("@uniswap/swap-router-contracts/artifacts/contracts/lens/QuoterV2.sol/QuoterV2.json"),
+  UniswapV3Factory: require("@violetprotocol/mauve-v3-core/artifacts/contracts/UniswapV3Factory.sol/UniswapV3Factory.json"),
+  Quoter: require("@violetprotocol/swap-router-contracts/artifacts/contracts/lens/Quoter.sol/Quoter.json"),
+  QuoterV2: require("@violetprotocol/swap-router-contracts/artifacts/contracts/lens/QuoterV2.sol/QuoterV2.json"),
   SwapRouter: require("@uniswap/v3-periphery/artifacts/contracts/SwapRouter.sol/SwapRouter.json"),
-  SwapRouter02: require("@uniswap/swap-router-contracts/artifacts/contracts/SwapRouter02.sol/SwapRouter02.json"),
+  SwapRouter02: require("@violetprotocol/swap-router-contracts/artifacts/contracts/SwapRouter02.sol/SwapRouter02.json"),
   NFTDescriptor: require("@uniswap/v3-periphery/artifacts/contracts/libraries/NFTDescriptor.sol/NFTDescriptor.json"),
   NonfungibleTokenPositionDescriptor: require("@uniswap/v3-periphery/artifacts/contracts/NonfungibleTokenPositionDescriptor.sol/NonfungibleTokenPositionDescriptor.json"),
   NonfungiblePositionManager: require("@uniswap/v3-periphery/artifacts/contracts/NonfungiblePositionManager.sol/NonfungiblePositionManager.json"),
@@ -19,45 +19,56 @@ const artifacts: { [name: string]: ContractJson } = {
 // type INonfungiblePositionManager = Contract;
 // type IUniswapV3Factory = Contract;
 
-const uniswapV2Factory = "0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f";
+const WETH9Address = "0x4200000000000000000000000000000000000006";
+const EATVerifier = "0x5Dbe2B4648FFAF2867F8Ad07d42003F5ce4b7d2C";
 
 export class MauveDeployer {
   static async deploy(actor: Signer): Promise<{ [name: string]: Contract }> {
     const deployer = new MauveDeployer(actor);
 
-    const weth9 = await deployer.deployWETH9();
+    // const weth9 = await deployer.deployWETH9();
     const factory = await deployer.deployFactory();
-    const router = await deployer.deployRouter(factory.address, weth9.address);
-    const quoter = await deployer.deployQuoter(factory.address, weth9.address);
-    const quoterV2 = await deployer.deployQuoterV2(
-      factory.address,
-      weth9.address
-    );
+    console.log("deployed factory");
+    // const router = await deployer.deployRouter(factory.address, WETH9Address);
+    console.log("deployed router");
+    const quoter = await deployer.deployQuoter(factory.address, WETH9Address);
+    console.log("deployed quoter");
+    // const quoterV2 = await deployer.deployQuoterV2(
+    //   factory.address,
+    //   WETH9Address
+    // );
+    console.log("deployed quoterv2");
     const nftDescriptorLibrary = await deployer.deployNFTDescriptorLibrary();
+    console.log("deployed nftdesc");
     const positionDescriptor = await deployer.deployPositionDescriptor(
       nftDescriptorLibrary.address,
-      weth9.address
+      WETH9Address
     );
+    console.log("deployed posdesc");
     const positionManager = await deployer.deployNonfungiblePositionManager(
       factory.address,
-      weth9.address,
+      WETH9Address,
       positionDescriptor.address
     );
 
+    console.log("deployed posman");
     const router02 = await deployer.deployRouter02(
-      uniswapV2Factory,
       factory.address,
       positionManager.address,
-      weth9.address
+      WETH9Address,
+      EATVerifier
     );
+    console.log("deployed router02");
+
+    await factory.setSwapRouter(router02.address);
 
     return {
-      weth9,
+      // weth9,
       factory,
-      router,
+      // router,
       router02,
       quoter,
-      quoterV2,
+      // quoterV2,
       nftDescriptorLibrary,
       positionDescriptor,
       positionManager,
@@ -98,19 +109,19 @@ export class MauveDeployer {
   }
 
   async deployRouter02(
-    factoryV2Address: string,
     factoryV3Address: string,
     positionManagerAddress: string,
-    weth9Address: string
+    weth9Address: string,
+    eatVerifierAddress: string
   ) {
     return await this.deployContract<Contract>(
       artifacts.SwapRouter02.abi,
       artifacts.SwapRouter02.bytecode,
       [
-        factoryV2Address,
         factoryV3Address,
         positionManagerAddress,
         weth9Address,
+        eatVerifierAddress,
       ],
       this.deployer
     );
