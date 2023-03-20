@@ -5,13 +5,13 @@ import WETH9 from "../util/WETH9.json";
 type ContractJson = { abi: any; bytecode: string };
 const artifacts: { [name: string]: ContractJson } = {
   UniswapV3Factory: require("@violetprotocol/mauve-v3-core/artifacts/contracts/UniswapV3Factory.sol/UniswapV3Factory.json"),
-  Quoter: require("@violetprotocol/swap-router-contracts/artifacts/contracts/lens/Quoter.sol/Quoter.json"),
-  QuoterV2: require("@violetprotocol/swap-router-contracts/artifacts/contracts/lens/QuoterV2.sol/QuoterV2.json"),
-  SwapRouter: require("@uniswap/v3-periphery/artifacts/contracts/SwapRouter.sol/SwapRouter.json"),
-  SwapRouter02: require("@violetprotocol/swap-router-contracts/artifacts/contracts/SwapRouter02.sol/SwapRouter02.json"),
-  NFTDescriptor: require("@uniswap/v3-periphery/artifacts/contracts/libraries/NFTDescriptor.sol/NFTDescriptor.json"),
-  NonfungibleTokenPositionDescriptor: require("@uniswap/v3-periphery/artifacts/contracts/NonfungibleTokenPositionDescriptor.sol/NonfungibleTokenPositionDescriptor.json"),
-  NonfungiblePositionManager: require("@uniswap/v3-periphery/artifacts/contracts/NonfungiblePositionManager.sol/NonfungiblePositionManager.json"),
+  Quoter: require("@violetprotocol/mauve-swap-router-contracts/artifacts/contracts/lens/Quoter.sol/Quoter.json"),
+  QuoterV2: require("@violetprotocol/mauve-swap-router-contracts/artifacts/contracts/lens/QuoterV2.sol/QuoterV2.json"),
+  SwapRouter: require("@uniswap/mauve-v3-periphery/artifacts/contracts/SwapRouter.sol/SwapRouter.json"),
+  SwapRouter02: require("@violetprotocol/mauve-swap-router-contracts/artifacts/contracts/SwapRouter02.sol/SwapRouter02.json"),
+  NFTDescriptor: require("@uniswap/mauve-v3-periphery/artifacts/contracts/libraries/NFTDescriptor.sol/NFTDescriptor.json"),
+  NonfungibleTokenPositionDescriptor: require("@uniswap/mauve-v3-periphery/artifacts/contracts/NonfungibleTokenPositionDescriptor.sol/NonfungibleTokenPositionDescriptor.json"),
+  NonfungiblePositionManager: require("@uniswap/mauve-v3-periphery/artifacts/contracts/NonfungiblePositionManager.sol/NonfungiblePositionManager.json"),
   WETH9,
 };
 
