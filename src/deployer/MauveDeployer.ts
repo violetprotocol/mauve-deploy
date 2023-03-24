@@ -31,23 +31,17 @@ export class MauveDeployer {
 
     // const weth9 = await deployer.deployWETH9();
     const factory = await deployer.deployFactory();
-    console.log("deployed factory");
     // const router = await deployer.deployRouter(factory.address, WETH9Address);
-    console.log("deployed router");
     const quoter = await deployer.deployQuoter(factory.address, WETH9Address);
-    console.log("deployed quoter");
     // const quoterV2 = await deployer.deployQuoterV2(
     //   factory.address,
     //   WETH9Address
     // );
-    console.log("deployed quoterv2");
     const nftDescriptorLibrary = await deployer.deployNFTDescriptorLibrary();
-    console.log("deployed nftdesc");
     const positionDescriptor = await deployer.deployPositionDescriptor(
       nftDescriptorLibrary.address,
       WETH9Address
     );
-    console.log("deployed posdesc");
     const positionManager = await deployer.deployNonfungiblePositionManager(
       factory.address,
       WETH9Address,
@@ -55,14 +49,12 @@ export class MauveDeployer {
       eatVerifierAddress
     );
 
-    console.log("deployed posman");
     const router02 = await deployer.deployRouter02(
       factory.address,
       positionManager.address,
       WETH9Address,
       eatVerifierAddress
     );
-    console.log("deployed router02");
 
     await factory.setRole(router02.address, swapRouterBytes32);
     await factory.setRole(positionManager.address, positionManagerBytes32);

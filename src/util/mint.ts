@@ -53,7 +53,7 @@ export const mint = async (
     nonFungiblePositionManager,
     mintMulticallParameters
   );
-  console.log("sending multicall");
+
   const txData = await nonFungiblePositionManager
     .connect(minter)
     ["multicall(uint8,bytes32,bytes32,uint256,bytes[])"](
@@ -63,7 +63,7 @@ export const mint = async (
       expiry,
       mintMulticallParameters
     );
-  console.log("sent multicall");
+
   const {
     tokenId: tokenId,
     liquidity: liquidity,

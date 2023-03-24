@@ -59,8 +59,6 @@ async function main() {
     encodePriceSqrt(1, 1)
   );
 
-  console.log(`Deployed pool at ${poolAddress}`);
-
   await approveContractsToSpend([token0, token1], liquidityProvider, [
     positionManager.address,
     router02.address,
@@ -73,8 +71,6 @@ async function main() {
     poolAddress,
   ]);
 
-  console.log("Approve token spending");
-
   const domain: Domain = {
     name: "Ethereum Access Token",
     version: "1",
@@ -82,10 +78,6 @@ async function main() {
     verifyingContract: EATVerifier.address,
   };
 
-  console.log(await token0.balanceOf(liquidityProvider.address));
-  console.log(await token1.balanceOf(liquidityProvider.address));
-  console.log(await token0.balanceOf(trader.address));
-  console.log(await token1.balanceOf(trader.address));
   const lpNFTId = await mintPosition(
     positionManager,
     [token0, token1],
