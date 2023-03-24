@@ -34,11 +34,11 @@ export const mint = async (
     tickLower: getMinTick(TICK_SPACINGS[FeeAmount.MEDIUM]),
     tickUpper: getMaxTick(TICK_SPACINGS[FeeAmount.MEDIUM]),
     fee: FeeAmount.MEDIUM,
-    recipient: receiver.address,
+    recipient: minter.address,
     amount0Desired: 15,
     amount1Desired: 15,
-    amount0Min: 1,
-    amount1Min: 1,
+    amount0Min: 0,
+    amount1Min: 0,
     deadline: 1689669489,
   };
   const mintMulticallParameters = [
@@ -55,6 +55,16 @@ export const mint = async (
   );
 
   const txData = await nonFungiblePositionManager
+    .connect(minter)
+    .callStatic["multicall(uint8,bytes32,bytes32,uint256,bytes[])"](
+      eat.v,
+      eat.r,
+      eat.s,
+      expiry,
+      mintMulticallParameters
+    );
+
+  await nonFungiblePositionManager
     .connect(minter)
     ["multicall(uint8,bytes32,bytes32,uint256,bytes[])"](
       eat.v,

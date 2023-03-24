@@ -13,5 +13,9 @@ export async function deployERC20s(): Promise<TestERC20[]> {
   await token0.deployed();
   await token1.deployed();
 
-  return [token0, token1];
+  const tokens = [token0, token1];
+
+  return tokens.sort((a, b) =>
+    a.address.toLowerCase() < b.address.toLowerCase() ? -1 : 1
+  );
 }
