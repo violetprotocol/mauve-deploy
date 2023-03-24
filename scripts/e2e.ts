@@ -6,7 +6,7 @@ import { deployERC20s } from "./deployERC20s";
 import { deployMauve } from "./deployMauve";
 import { deployPool } from "./deployPool";
 import { mintPosition } from "./mintPosition";
-import { performSwap } from "./performSwap";
+import { performSwap, Swap } from "./performSwap";
 import { getQuote, TradeSingleHop, TradeType } from "./getQuote";
 import { FeeAmount, MaxUint128 } from "../src/util/constants";
 import { encodePriceSqrt } from "../src/util/encodePriceSqrt";
@@ -24,6 +24,7 @@ async function main() {
     eatSigner,
     liquidityProvider,
     trader,
+    trader2,
   ] = signers;
 
   // Deploy EATVerifier
@@ -100,7 +101,16 @@ async function main() {
 
   console.log(quote);
 
-  // await performSwap();
+  const swap: Swap = {
+    tokenIn: token0.address,
+    tokenOut: token1.address,
+    amountIn: 3,
+    amountOutMinimum: 1,
+    recipient: trader.address,
+    fee: FeeAmount.MEDIUM,
+  };
+
+  await performSwap(router02, swap, trader, eatSigner, domain);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
