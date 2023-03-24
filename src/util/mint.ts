@@ -37,9 +37,9 @@ export const mint = async (
     recipient: receiver.address,
     amount0Desired: 15,
     amount1Desired: 15,
-    amount0Min: 0,
-    amount1Min: 0,
-    deadline: 1679669489,
+    amount0Min: 1,
+    amount1Min: 1,
+    deadline: 1689669489,
   };
   const mintMulticallParameters = [
     nonFungiblePositionManager.interface.encodeFunctionData("mint", [

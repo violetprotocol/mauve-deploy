@@ -46,9 +46,10 @@ export const createAndInitializePoolIfNecessary: CreateAndInitializePoolIfNecess
       }
 
       const poolContract = await IUniswapV3Pool__factory.connect(
-        pool,
+        poolAddress,
         poolAdmin
       );
+
       await poolContract.initialize(initialSqrtPriceX96);
 
       return poolAddress;

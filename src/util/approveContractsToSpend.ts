@@ -10,7 +10,9 @@ export const approveContractsToSpend = async (
   await tokens.forEach(async (token) => {
     addressToApprove.forEach(
       async (address) =>
-        await token.connect(owner).approve(address, ethers.constants.MaxUint256)
+        await token
+          .connect(owner)
+          .approve(address, ethers.constants.MaxUint256.div(10))
     );
   });
 };

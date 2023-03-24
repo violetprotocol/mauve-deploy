@@ -55,7 +55,7 @@ async function main() {
     factory.address,
     token0.address,
     token1.address,
-    FeeAmount.LOW,
+    FeeAmount.MEDIUM,
     encodePriceSqrt(1, 1)
   );
 
