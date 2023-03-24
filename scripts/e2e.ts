@@ -18,9 +18,16 @@ async function main() {
   // await token0.connect(trader).mint(parseEther("1"));
   // await token1.connect(trader).mint(parseEther("1"));
 
-  await deployMauve(deployer, mauveOwner, poolAdmin);
+  const {
+    factory,
+    router02,
+    quoter,
+    nftDescriptorLibrary,
+    positionDescriptor,
+    positionManager,
+  } = await deployMauve(deployer, mauveOwner, poolAdmin);
   await deployPool();
-  await mintPosition();
+  await mintPosition(positionManager, [token0, token1]);
   await performSwap();
 }
 
