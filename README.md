@@ -1,5 +1,6 @@
 # Mauve Deploy
 
+Repository that contains the code necessary for the deployment of Mauve contracts on an EVM compatible network;
 To deploy Mauve contracts, follow the steps outlined below:
 
 ## Step-by-step
