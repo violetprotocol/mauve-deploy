@@ -28,7 +28,7 @@ export async function getQuote(
 ): Promise<BigNumber> {
   if (tradeType.includes("Single")) {
     const singleHop = (trade as any) as TradeSingleHop;
-    return await quoter[`quoteE${tradeType.substring(1)}`](
+    return await quoter.callStatic[`quoteE${tradeType.substring(1)}`](
       singleHop.tokenIn,
       singleHop.tokenOut,
       singleHop.fee,
@@ -37,7 +37,7 @@ export async function getQuote(
     );
   } else {
     const multiHop = (trade as any) as TradeMultiHop;
-    return await quoter[`quoteE${tradeType.substring(1)}`](
+    return await quoter.callStatic[`quoteE${tradeType.substring(1)}`](
       multiHop.path,
       multiHop.amount
     );

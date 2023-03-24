@@ -93,7 +93,7 @@ async function main() {
     tokenOut: token1.address,
     fee: FeeAmount.MEDIUM,
     amount: MaxUint128,
-    sqrtPriceLimit: encodePriceSqrt(102, 100),
+    sqrtPriceLimit: encodePriceSqrt(100, 102),
   };
 
   const quote = await getQuote(quoter, TradeType.EXACT_INPUT_SINGLE, trade);
