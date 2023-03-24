@@ -70,6 +70,8 @@ export default {
   dependencyCompiler: {
     paths: [
       "@violetprotocol/ethereum-access-token/contracts/AccessTokenVerifier.sol",
+      "@violetprotocol/mauve-v3-core/contracts/interfaces/IUniswapV3Pool.sol",
+      "@violetprotocol/mauve-v3-core/contracts/interfaces/IUniswapV3Factory.sol",
     ],
   },
 };
