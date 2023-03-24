@@ -1,4 +1,5 @@
 import { BigNumber, Contract } from "ethers";
+import { FeeAmount } from "../src/util/constants";
 
 export enum TradeType {
   EXACT_INPUT = "exactInput",
@@ -7,20 +8,38 @@ export enum TradeType {
   EXACT_OUTPUT_SINGLE = "exactOutputSingle",
 }
 
+export interface TradeSingleHop {
+  tokenIn: string;
+  tokenOut: string;
+  fee: FeeAmount;
+  amount: BigNumber;
+  sqrtPriceLimit: BigNumber;
+}
+
+export interface TradeMultiHop {
+  path: TradeSingleHop[];
+  amount: BigNumber;
+}
+
 export async function getQuote(
   quoter: Contract,
   tradeType: TradeType,
-  trade: any
+  trade: TradeSingleHop | TradeMultiHop
 ): Promise<BigNumber> {
-  if (tradeType.includes("single")) {
-    return await quoter[tradeType](
-      trade.tokenIn,
-      trade.tokenOut,
-      trade.fee,
-      trade.amountIn,
-      trade.sqrtPriceLimit
+  if (tradeType.includes("Single")) {
+    const singleHop = (trade as any) as TradeSingleHop;
+    return await quoter[`quoteE${tradeType.substring(1)}`](
+      singleHop.tokenIn,
+      singleHop.tokenOut,
+      singleHop.fee,
+      singleHop.amount,
+      singleHop.sqrtPriceLimit
     );
   } else {
-    return await quoter[tradeType](trade.path, trade.amountIn);
+    const multiHop = (trade as any) as TradeMultiHop;
+    return await quoter[`quoteE${tradeType.substring(1)}`](
+      multiHop.path,
+      multiHop.amount
+    );
   }
 }

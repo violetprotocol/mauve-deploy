@@ -7,11 +7,12 @@ import { deployMauve } from "./deployMauve";
 import { deployPool } from "./deployPool";
 import { mintPosition } from "./mintPosition";
 import { performSwap } from "./performSwap";
-import { getQuote } from "./getQuote";
-import { FeeAmount } from "../src/util/constants";
+import { getQuote, TradeSingleHop, TradeType } from "./getQuote";
+import { FeeAmount, MaxUint128 } from "../src/util/constants";
 import { encodePriceSqrt } from "../src/util/encodePriceSqrt";
 import { parseEther } from "ethers/lib/utils";
 import { approveContractsToSpend } from "../src/util/approveContractsToSpend";
+import { BigNumber } from "ethers";
 
 async function main() {
   // Get all signers
@@ -87,7 +88,17 @@ async function main() {
     domain
   );
 
-  // const quote = await getQuote(quoter);
+  const trade: TradeSingleHop = {
+    tokenIn: token0.address,
+    tokenOut: token1.address,
+    fee: FeeAmount.MEDIUM,
+    amount: MaxUint128,
+    sqrtPriceLimit: encodePriceSqrt(102, 100),
+  };
+
+  const quote = await getQuote(quoter, TradeType.EXACT_INPUT_SINGLE, trade);
+
+  console.log(quote);
 
   // await performSwap();
 }
