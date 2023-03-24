@@ -51,7 +51,14 @@ export default {
     runOnCompile: false,
   },
   solidity: {
-    compilers: ["0.7.6"],
+    compilers: [
+      {
+        version: "0.7.6",
+      },
+      {
+        version: "0.8.0",
+      },
+    ],
   },
   watcher: {
     test: {

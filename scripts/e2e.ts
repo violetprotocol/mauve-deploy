@@ -8,7 +8,7 @@ import { performSwap } from "./performSwap";
 
 async function main() {
   await deployEAT();
-  await deployERC20s();
+  const [token0, token1] = await deployERC20s();
   await deployMauve();
   await deployPool();
   await mintPosition();

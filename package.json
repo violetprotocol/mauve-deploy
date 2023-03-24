@@ -15,6 +15,8 @@
     "uniswap"
   ],
   "scripts": {
+    "compile": "hardhat compile",
+    "typechain": "hardhat typechain",
     "lint:fix": "prettier --write 'src/**/*.{js,ts}' 'test/**/*.{js,ts}' && tslint --fix --config tslint.json --project tsconfig.json",
     "lint": "tslint --config tslint.json --project tsconfig.json",
     "test": "mocha --exit --recursive 'test/**/*.test.ts'",
@@ -42,6 +44,7 @@
     "ethereum-waffle": "^3.0.2",
     "ethers": "^5.0.8",
     "hardhat": "^2.0.0",
+    "hardhat-contract-sizer": "^2.8.0",
     "hardhat-dependency-compiler": "^1.1.3",
     "hardhat-typechain": "^0.3.5",
     "mocha": "^7.1.2",

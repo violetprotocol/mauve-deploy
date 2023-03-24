@@ -1,4 +1,7 @@
 /dist
+artifacts
+typechain
+cache
 
 # Logs
 logs
