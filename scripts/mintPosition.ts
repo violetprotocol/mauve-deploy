@@ -7,6 +7,7 @@ export async function mintPosition(
   positionManager: Contract,
   tokens: Contract[],
   minter: SignerWithAddress,
+  receiver: SignerWithAddress,
   eatSigner: SignerWithAddress,
   domain: Domain
 ): Promise<number> {
@@ -14,6 +15,7 @@ export async function mintPosition(
     positionManager,
     tokens,
     minter,
+    receiver,
     eatSigner,
     domain
   );

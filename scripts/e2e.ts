@@ -32,19 +32,26 @@ async function main() {
   const [token0, token1] = await deployERC20s();
 
   // mint erc20s
-  await token0.connect(liquidityProvider).mint(parseEther("1"));
-  await token1.connect(liquidityProvider).mint(parseEther("1"));
-  await token0.connect(trader).mint(parseEther("1"));
-  await token1.connect(trader).mint(parseEther("1"));
+  await token0.connect(liquidityProvider).mint(parseEther("100000000"));
+  await token1.connect(liquidityProvider).mint(parseEther("100000000"));
+  await token0.connect(trader).mint(parseEther("100000000"));
+  await token1.connect(trader).mint(parseEther("100000000"));
 
   const { factory, router02, quoter, positionManager } = await deployMauve(
     deployer,
     mauveOwner,
-    poolAdmin
+    poolAdmin,
+    EATVerifier
   );
 
+  console.log(`Factory: ${factory.address}`);
+  console.log(`Router: ${router02.address}`);
+  console.log(`Quoter: ${quoter.address}`);
+  console.log(`NFT Position manager: ${positionManager.address}`);
+  console.log("Mauve deployed");
+
   const poolAddress = await deployPool(
-    deployer,
+    poolAdmin,
     factory.address,
     token0.address,
     token1.address,
@@ -52,15 +59,21 @@ async function main() {
     encodePriceSqrt(1, 1)
   );
 
+  console.log(`Deployed pool at ${poolAddress}`);
+
   await approveContractsToSpend([token0, token1], liquidityProvider, [
     positionManager.address,
     router02.address,
+    poolAddress,
   ]);
 
   await approveContractsToSpend([token0, token1], trader, [
     positionManager.address,
     router02.address,
+    poolAddress,
   ]);
+
+  console.log("Approve token spending");
 
   const domain: Domain = {
     name: "Ethereum Access Token",
@@ -69,10 +82,15 @@ async function main() {
     verifyingContract: EATVerifier.address,
   };
 
+  console.log(await token0.balanceOf(liquidityProvider.address));
+  console.log(await token1.balanceOf(liquidityProvider.address));
+  console.log(await token0.balanceOf(trader.address));
+  console.log(await token1.balanceOf(trader.address));
   const lpNFTId = await mintPosition(
     positionManager,
     [token0, token1],
     liquidityProvider,
+    trader,
     eatSigner,
     domain
   );

@@ -1,5 +1,5 @@
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
-import { BigNumber, Wallet } from "ethers";
+import { BigNumber } from "ethers";
 import { ethers } from "hardhat";
 import {
   IUniswapV3Factory__factory,
@@ -8,7 +8,7 @@ import {
 import { FeeAmount } from "./constants";
 
 export type CreateAndInitializePoolIfNecessary = (
-  wallet: SignerWithAddress,
+  poolAdmin: SignerWithAddress,
   factoryAddress: string,
   token0: string,
   token1: string,
@@ -17,7 +17,7 @@ export type CreateAndInitializePoolIfNecessary = (
 ) => Promise<string>;
 
 export const createAndInitializePoolIfNecessary: CreateAndInitializePoolIfNecessary = async (
-  wallet,
+  poolAdmin,
   factoryAddress,
   token0,
   token1,
@@ -29,13 +29,15 @@ export const createAndInitializePoolIfNecessary: CreateAndInitializePoolIfNecess
   }
   const factory = await IUniswapV3Factory__factory.connect(
     factoryAddress,
-    wallet
+    poolAdmin
   );
   const pool = await factory.getPool(token0, token1, fee);
 
   if (pool == ethers.constants.AddressZero) {
     try {
-      const createdPoolTx = await factory.createPool(token0, token1, fee);
+      const createdPoolTx = await factory
+        .connect(poolAdmin)
+        .createPool(token0, token1, fee);
       const txReceipt = await createdPoolTx.wait();
       const poolAddress = txReceipt.events?.[0].args?.pool;
 
@@ -43,7 +45,10 @@ export const createAndInitializePoolIfNecessary: CreateAndInitializePoolIfNecess
         throw new Error("Failed to get pool address from creation");
       }
 
-      const poolContract = await IUniswapV3Pool__factory.connect(pool, wallet);
+      const poolContract = await IUniswapV3Pool__factory.connect(
+        pool,
+        poolAdmin
+      );
       await poolContract.initialize(initialSqrtPriceX96);
 
       return poolAddress;
@@ -52,7 +57,10 @@ export const createAndInitializePoolIfNecessary: CreateAndInitializePoolIfNecess
     }
   } else {
     try {
-      const poolContract = await IUniswapV3Pool__factory.connect(pool, wallet);
+      const poolContract = await IUniswapV3Pool__factory.connect(
+        pool,
+        poolAdmin
+      );
       const { sqrtPriceX96 } = await poolContract.slot0();
       if (sqrtPriceX96.eq(0)) {
         await poolContract.initialize(initialSqrtPriceX96);

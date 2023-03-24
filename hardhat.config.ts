@@ -9,7 +9,7 @@ import "hardhat-contract-sizer";
 export default {
   networks: {
     localhost: {
-      url: `https://localhost:8545`,
+      url: `http://localhost:8545`,
     },
     hardhat: {
       allowUnlimitedContractSize: false,

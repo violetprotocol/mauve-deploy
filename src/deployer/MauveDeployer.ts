@@ -21,10 +21,12 @@ const artifacts: { [name: string]: ContractJson } = {
 // type IUniswapV3Factory = Contract;
 
 const WETH9Address = "0x4200000000000000000000000000000000000006";
-const EATVerifier = "0x5Dbe2B4648FFAF2867F8Ad07d42003F5ce4b7d2C";
 
 export class MauveDeployer {
-  static async deploy(actor: Signer): Promise<{ [name: string]: Contract }> {
+  static async deploy(
+    actor: Signer,
+    eatVerifierAddress: string
+  ): Promise<{ [name: string]: Contract }> {
     const deployer = new MauveDeployer(actor);
 
     // const weth9 = await deployer.deployWETH9();
@@ -50,7 +52,7 @@ export class MauveDeployer {
       factory.address,
       WETH9Address,
       positionDescriptor.address,
-      EATVerifier
+      eatVerifierAddress
     );
 
     console.log("deployed posman");
@@ -58,7 +60,7 @@ export class MauveDeployer {
       factory.address,
       positionManager.address,
       WETH9Address,
-      EATVerifier
+      eatVerifierAddress
     );
     console.log("deployed router02");
 
