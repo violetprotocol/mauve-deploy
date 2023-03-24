@@ -70,7 +70,6 @@ export default {
   dependencyCompiler: {
     paths: [
       "@violetprotocol/ethereum-access-token/contracts/AccessTokenVerifier.sol",
-      "@openzeppelin/contracts/token/ERC20/ERC20.sol",
     ],
   },
 };

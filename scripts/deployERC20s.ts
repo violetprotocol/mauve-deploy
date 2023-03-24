@@ -1,9 +1,11 @@
 import { Contract } from "ethers";
 import { ethers } from "hardhat";
-import { ERC20__factory } from "../typechain";
+import { TestERC20, TestERC20__factory } from "../typechain";
 
-export async function deployERC20s(): Promise<Contract[]> {
-  const ERC20Factory = <ERC20__factory>await ethers.getContractFactory("ERC20");
+export async function deployERC20s(): Promise<TestERC20[]> {
+  const ERC20Factory = <TestERC20__factory>(
+    await ethers.getContractFactory("TestERC20")
+  );
 
   const token0 = await ERC20Factory.deploy("token0", "TOK0");
   const token1 = await ERC20Factory.deploy("token1", "TOK1");
