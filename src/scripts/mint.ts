@@ -1,8 +1,6 @@
 import { Domain } from "@violetprotocol/ethereum-access-token-helpers/dist/messages";
-import { AccessTokenVerifier } from "@violetprotocol/ethereum-access-token-helpers/dist/types";
 import { BigNumber, ethers, Wallet } from "ethers";
 import { FeeAmount, TICK_SPACINGS } from './constants'
-import { encodePriceSqrt } from "./encodePriceSqrt";
 import { generateAccessTokenForMulticall } from "./generateAccessToken";
 import { getMaxTick, getMinTick } from "./ticks";
 
@@ -24,18 +22,10 @@ export type MintedResults = {
 export const mint = async (
     nonFungiblePositionManager: ethers.Contract,
     tokens: ethers.Contract[],
-    createAndInitializePoolIfNecessary: CreatePoolIfNecessary,
     addressToMintFrom: ethers.Wallet,
     signer: Wallet,
     domain: Domain,
 ): Promise<MintedResults>  => {
-      await createAndInitializePoolIfNecessary(
-        tokens[0].address,
-        tokens[1].address,
-        FeeAmount.MEDIUM,
-        encodePriceSqrt(1, 1)
-      )
-
       const mintParams = {
         token0: tokens[0].address,
         token1: tokens[1].address,
