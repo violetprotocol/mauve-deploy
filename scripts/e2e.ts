@@ -7,9 +7,12 @@ import { mintPosition } from "./mintPosition";
 import { performSwap } from "./performSwap";
 
 async function main() {
+  const signers = await ethers.getSigners();
+  const [deployer, mauveOwner, poolAdmin] = signers;
+
   await deployEAT();
   const [token0, token1] = await deployERC20s();
-  await deployMauve();
+  await deployMauve(deployer, mauveOwner, poolAdmin);
   await deployPool();
   await mintPosition();
   await performSwap();
