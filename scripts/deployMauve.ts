@@ -1,8 +1,8 @@
-import { Wallet } from "ethers";
+import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { ethers } from "hardhat";
 
 export async function deployMauve(
-  deployer: Wallet,
-  mauveOwner: Wallet,
-  poolAdmin: Wallet
+  deployer: SignerWithAddress,
+  mauveOwner: SignerWithAddress,
+  poolAdmin: SignerWithAddress
 ) {}

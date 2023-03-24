@@ -8,9 +8,9 @@ import { performSwap } from "./performSwap";
 
 async function main() {
   const signers = await ethers.getSigners();
-  const [deployer, mauveOwner, poolAdmin] = signers;
+  const [deployer, mauveOwner, poolAdmin, eatSigner] = signers;
 
-  await deployEAT();
+  const EATVerifier = await deployEAT(deployer, eatSigner);
   const [token0, token1] = await deployERC20s();
   await deployMauve(deployer, mauveOwner, poolAdmin);
   await deployPool();
