@@ -1,8 +1,8 @@
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { BigNumber } from "ethers";
 import { ethers } from "hardhat";
-import { FeeAmount } from "../src/scripts/constants";
-import { createAndInitializePoolIfNecessary } from "../src/scripts/createAndInitializePoolIfNecessary";
+import { FeeAmount } from "../src/util/constants";
+import { createAndInitializePoolIfNecessary } from "../src/util/createAndInitializePoolIfNecessary";
 
 export async function deployPool(
   deployer: SignerWithAddress,
