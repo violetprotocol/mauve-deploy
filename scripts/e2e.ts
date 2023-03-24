@@ -32,10 +32,10 @@ async function main() {
   const [token0, token1] = await deployERC20s();
 
   // mint erc20s
-  await token0.connect(liquidityProvider).mint(parseEther("100000000"));
-  await token1.connect(liquidityProvider).mint(parseEther("100000000"));
-  await token0.connect(trader).mint(parseEther("100000000"));
-  await token1.connect(trader).mint(parseEther("100000000"));
+  await token0.connect(liquidityProvider).mint(parseEther("1000000000000000"));
+  await token1.connect(liquidityProvider).mint(parseEther("1000000000000000"));
+  await token0.connect(trader).mint(parseEther("1000000000000000"));
+  await token1.connect(trader).mint(parseEther("1000000000000000"));
 
   const { factory, router02, quoter, positionManager } = await deployMauve(
     deployer,
