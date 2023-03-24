@@ -701,6 +701,11 @@
   resolved "https://registry.yarnpkg.com/@openzeppelin/contracts/-/contracts-3.4.2-solc-0.7.tgz#38f4dbab672631034076ccdf2f3201fab1726635"
   integrity sha512-W6QmqgkADuFcTLzHL8vVoNBtkwjvQRpYIAom7KiUNoLKghyx3FgH0GBjt8NRvigV1ZmMOBllvE1By1C+bi8WpA==
 
+"@openzeppelin/contracts@^4.8.2":
+  version "4.8.2"
+  resolved "https://registry.yarnpkg.com/@openzeppelin/contracts/-/contracts-4.8.2.tgz#d815ade0027b50beb9bcca67143c6bcc3e3923d6"
+  integrity sha512-kEUOgPQszC0fSYWpbh2kT94ltOJwj1qfT2DWo+zVttmGmf97JZ99LspePNaeeaLhCImaHVeBbjaQFZQn7+Zc5g==
+
 "@resolver-engine/core@^0.3.3":
   version "0.3.3"
   resolved "https://registry.yarnpkg.com/@resolver-engine/core/-/core-0.3.3.tgz#590f77d85d45bc7ecc4e06c654f41345db6ca967"
@@ -1000,7 +1005,7 @@
   resolved "https://registry.yarnpkg.com/@uniswap/v2-core/-/v2-core-1.0.1.tgz#af8f508bf183204779938969e2e54043e147d425"
   integrity sha512-MtybtkUPSyysqLY2U210NBDeCHX+ltHt3oADGdjqoThZaFRDKwM6k1Nb3F0A3hk5hwuQvytFWhrWHOEq6nVJ8Q==
 
-"@violetprotocol/ethereum-access-token-helpers@^0.2.0":
+"@violetprotocol/ethereum-access-token-helpers@0.2.0":
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/@violetprotocol/ethereum-access-token-helpers/-/ethereum-access-token-helpers-0.2.0.tgz#e826309674c1dc8e47c2c8f00664ad0b0c9a3ea7"
   integrity sha512-YrQSEFmCwnrjKTG3oS9bbA1CwzGQB95EpH+eYPIZ8UQFTO11+XOWlFq6RhZ6MhvSpJK5xxQsvp2GsBRmj0yeZg==
