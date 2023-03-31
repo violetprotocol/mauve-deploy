@@ -5,49 +5,56 @@ import WETH9 from "../util/WETH9.json";
 
 type ContractJson = { abi: any; bytecode: string };
 const artifacts: { [name: string]: ContractJson } = {
-  UniswapV3Factory: require("@violetprotocol/mauve-v3-core/artifacts/contracts/UniswapV3Factory.sol/UniswapV3Factory.json"),
+  MauveFactory: require("@violetprotocol/mauve-core/artifacts/contracts/MauveFactory.sol/MauveFactory.json"),
   Quoter: require("@violetprotocol/mauve-swap-router-contracts/artifacts/contracts/lens/Quoter.sol/Quoter.json"),
   QuoterV2: require("@violetprotocol/mauve-swap-router-contracts/artifacts/contracts/lens/QuoterV2.sol/QuoterV2.json"),
-  SwapRouter: require("@violetprotocol/mauve-v3-periphery/artifacts/contracts/SwapRouter.sol/SwapRouter.json"),
-  SwapRouter02: require("@violetprotocol/mauve-swap-router-contracts/artifacts/contracts/SwapRouter02.sol/SwapRouter02.json"),
-  NFTDescriptor: require("@violetprotocol/mauve-v3-periphery/artifacts/contracts/libraries/NFTDescriptor.sol/NFTDescriptor.json"),
-  NonfungibleTokenPositionDescriptor: require("@violetprotocol/mauve-v3-periphery/artifacts/contracts/NonfungibleTokenPositionDescriptor.sol/NonfungibleTokenPositionDescriptor.json"),
-  NonfungiblePositionManager: require("@violetprotocol/mauve-v3-periphery/artifacts/contracts/NonfungiblePositionManager.sol/NonfungiblePositionManager.json"),
+  SwapRouter: require("@violetprotocol/mauve-periphery/artifacts/contracts/SwapRouter.sol/SwapRouter.json"),
+  SwapRouter02: require("@violetprotocol/mauve-swap-router-contracts/artifacts/contracts/MauveSwapRouter.sol/MauveSwapRouter.json"),
+  NFTDescriptor: require("@violetprotocol/mauve-periphery/artifacts/contracts/libraries/NFTDescriptor.sol/NFTDescriptor.json"),
+  NonfungibleTokenPositionDescriptor: require("@violetprotocol/mauve-periphery/artifacts/contracts/NonfungibleTokenPositionDescriptor.sol/NonfungibleTokenPositionDescriptor.json"),
+  NonfungiblePositionManager: require("@violetprotocol/mauve-periphery/artifacts/contracts/NonfungiblePositionManager.sol/NonfungiblePositionManager.json"),
   WETH9,
 };
 
 // TODO: Should replace these with the proper typechain output.
 // type INonfungiblePositionManager = Contract;
-// type IUniswapV3Factory = Contract;
+// type IMauveFactory = Contract;
 
 const WETH9Address = "0x4200000000000000000000000000000000000006";
 
 export class MauveDeployer {
   static async deploy(
     actor: Signer,
+    violetIdAddress: string,
     eatVerifierAddress: string
   ): Promise<{ [name: string]: Contract }> {
     const deployer = new MauveDeployer(actor);
 
     // const weth9 = await deployer.deployWETH9();
     const factory = await deployer.deployFactory();
+    console.log("deployed factory");
     // const router = await deployer.deployRouter(factory.address, WETH9Address);
     const quoter = await deployer.deployQuoter(factory.address, WETH9Address);
+    console.log("deployed quoter");
     // const quoterV2 = await deployer.deployQuoterV2(
     //   factory.address,
     //   WETH9Address
     // );
     const nftDescriptorLibrary = await deployer.deployNFTDescriptorLibrary();
+    console.log("deployed nftdesclib");
     const positionDescriptor = await deployer.deployPositionDescriptor(
       nftDescriptorLibrary.address,
       WETH9Address
     );
+    console.log("deployed posdesc");
     const positionManager = await deployer.deployNonfungiblePositionManager(
       factory.address,
       WETH9Address,
       positionDescriptor.address,
-      eatVerifierAddress
+      eatVerifierAddress,
+      violetIdAddress
     );
+    console.log("deployed posman");
 
     const router02 = await deployer.deployRouter02(
       factory.address,
@@ -55,6 +62,7 @@ export class MauveDeployer {
       WETH9Address,
       eatVerifierAddress
     );
+    console.log("deployed router");
 
     await factory.setRole(router02.address, swapRouterBytes32);
     await factory.setRole(positionManager.address, positionManagerBytes32);
@@ -80,8 +88,8 @@ export class MauveDeployer {
 
   async deployFactory() {
     return await this.deployContract<Contract>(
-      artifacts.UniswapV3Factory.abi,
-      artifacts.UniswapV3Factory.bytecode,
+      artifacts.MauveFactory.abi,
+      artifacts.MauveFactory.bytecode,
       [],
       this.deployer
     );
@@ -163,7 +171,7 @@ export class MauveDeployer {
             NFTDescriptor: [
               {
                 length: 20,
-                start: 1681, // old value is 1261
+                start: 1657, // old value is 1261
               },
             ],
           },
@@ -190,7 +198,8 @@ export class MauveDeployer {
     factoryAddress: string,
     weth9Address: string,
     positionDescriptorAddress: string,
-    EATVerifierAddress: string
+    EATVerifierAddress: string,
+    violetIdAddress: string
   ) {
     return await this.deployContract<Contract>(
       artifacts.NonfungiblePositionManager.abi,
@@ -200,6 +209,7 @@ export class MauveDeployer {
         weth9Address,
         positionDescriptorAddress,
         EATVerifierAddress,
+        violetIdAddress,
       ],
       this.deployer
     );

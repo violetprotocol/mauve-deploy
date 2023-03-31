@@ -43,7 +43,8 @@ async function main() {
     deployer,
     mauveOwner,
     poolAdmin,
-    EATVerifier
+    EATVerifier.address,
+    ""
   );
 
   console.log(`Factory: ${factory.address}`);
@@ -58,7 +59,7 @@ async function main() {
     token0.address,
     token1.address,
     FeeAmount.MEDIUM,
-    encodePriceSqrt(1, 1)
+    encodePriceSqrt(1, 1)._hex
   );
 
   await approveContractsToSpend([token0, token1], liquidityProvider, [
