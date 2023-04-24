@@ -3,6 +3,8 @@
 Repository that contains the code necessary for the deployment of Mauve contracts on an EVM compatible network;
 To deploy Mauve contracts, follow the steps outlined below:
 
+Before making this repository public, clean up the git history and remove the PK committed at (e437c05f731d092fa6db6e0818d17c223988f12d). It's a testnet-only address but this will prevent people from reaching out.
+
 ## Step-by-step
 
 ### Installing
@@ -141,4 +143,3 @@ $ yarn hardhat --network optimismGoerli deploy-mauve
 ```
 
 And you're done. Time to build something great.
-
