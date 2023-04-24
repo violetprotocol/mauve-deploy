@@ -13,6 +13,7 @@ const artifacts: { [name: string]: ContractJson } = {
   NFTDescriptor: require("@violetprotocol/mauve-periphery/artifacts/contracts/libraries/NFTDescriptor.sol/NFTDescriptor.json"),
   NonfungibleTokenPositionDescriptor: require("@violetprotocol/mauve-periphery/artifacts/contracts/NonfungibleTokenPositionDescriptor.sol/NonfungibleTokenPositionDescriptor.json"),
   NonfungiblePositionManager: require("@violetprotocol/mauve-periphery/artifacts/contracts/NonfungiblePositionManager.sol/NonfungiblePositionManager.json"),
+  MauveInterfaceMulticall: require("@violetprotocol/mauve-periphery/artifacts/contracts/lens/MauveInterfaceMulticall.sol/MauveInterfaceMulticall.json"),
   WETH9,
 };
 
@@ -36,10 +37,11 @@ export class MauveDeployer {
     // const router = await deployer.deployRouter(factory.address, WETH9Address);
     const quoter = await deployer.deployQuoter(factory.address, WETH9Address);
     console.log("deployed quoter");
-    // const quoterV2 = await deployer.deployQuoterV2(
-    //   factory.address,
-    //   WETH9Address
-    // );
+    const quoterV2 = await deployer.deployQuoterV2(
+      factory.address,
+      WETH9Address
+    );
+    console.log("deployed quoter V2");
     const nftDescriptorLibrary = await deployer.deployNFTDescriptorLibrary();
     console.log("deployed nftdesclib");
     const positionDescriptor = await deployer.deployPositionDescriptor(
@@ -73,7 +75,7 @@ export class MauveDeployer {
       // router,
       router02,
       quoter,
-      // quoterV2,
+      quoterV2,
       nftDescriptorLibrary,
       positionDescriptor,
       positionManager,
@@ -146,6 +148,15 @@ export class MauveDeployer {
       artifacts.QuoterV2.abi,
       artifacts.QuoterV2.bytecode,
       [factoryAddress, weth9Address],
+      this.deployer
+    );
+  }
+
+  async deployMauveInterfaceMulticall() {
+    return await this.deployContract<Contract>(
+      artifacts.MauveInterfaceMulticall.abi,
+      artifacts.MauveInterfaceMulticall.bytecode,
+      [],
       this.deployer
     );
   }
