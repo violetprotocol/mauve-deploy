@@ -21,6 +21,12 @@ export const createAndInitializePoolIfNecessary: CreateAndInitializePoolIfNecess
   fee,
   initialSqrtPriceX96
 ) => {
+  const areTokensSorted = BigNumber.from(token0) < BigNumber.from(token1);
+
+  if (!areTokensSorted) {
+    throw new Error("Tokens addresses are not sorted");
+  }
+
   if (!factoryAddress) {
     throw new Error("Missing Factory address");
   }
