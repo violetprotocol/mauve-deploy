@@ -1,6 +1,5 @@
-import { Contract } from "ethers";
 import { ethers } from "hardhat";
-import { TestERC20, TestERC20__factory } from "../typechain";
+import { TestERC20, TestERC20__factory } from "../../typechain";
 
 export async function deployERC20s(): Promise<TestERC20[]> {
   const ERC20Factory = <TestERC20__factory>(

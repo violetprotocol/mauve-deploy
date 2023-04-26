@@ -1,9 +1,8 @@
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { Domain } from "@violetprotocol/ethereum-access-token-helpers/dist/messages";
 import { BigNumber, Contract } from "ethers";
-import { ethers } from "hardhat";
-import { FeeAmount } from "../src/util/constants";
-import { generateAccessTokenForMulticall } from "../src/util/generateAccessToken";
+import { FeeAmount } from "../util/constants";
+import { generateAccessTokenForMulticall } from "../util/generateAccessToken";
 
 export interface Swap {
   tokenIn: string;
@@ -16,7 +15,7 @@ export interface Swap {
 }
 
 const MSG_SENDER = "0x0000000000000000000000000000000000000001";
-const ADDRESS_THIS = "0x0000000000000000000000000000000000000002";
+// const ADDRESS_THIS = "0x0000000000000000000000000000000000000002";
 
 export async function performSwap(
   swapRouter: Contract,

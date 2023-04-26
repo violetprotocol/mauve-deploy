@@ -21,8 +21,7 @@ export const createAndInitializePoolIfNecessary: CreateAndInitializePoolIfNecess
   fee,
   initialSqrtPriceX96
 ) => {
-  console.log("Reached CreateAndInitializePoolIfNecessary ****")
-  const areTokensSorted = BigNumber.from(token0) < BigNumber.from(token1);
+  const areTokensSorted = BigNumber.from(token0) > BigNumber.from(token1);
 
   if (!areTokensSorted) {
     throw new Error("Tokens addresses are not sorted");
@@ -32,9 +31,7 @@ export const createAndInitializePoolIfNecessary: CreateAndInitializePoolIfNecess
     throw new Error("Missing Factory address");
   }
 
-  console.log("Reached CreateAndInitializePoolIfNecessary ****")
-  console.log(IMauveFactory__factory);
-  const factory = await IMauveFactory__factory.connect(
+  const factory = IMauveFactory__factory.connect(
     factoryAddress,
     poolAdmin
   );
@@ -52,7 +49,7 @@ export const createAndInitializePoolIfNecessary: CreateAndInitializePoolIfNecess
         throw new Error("Failed to get pool address from creation");
       }
 
-      const poolContract = await IMauvePool__factory.connect(
+      const poolContract = IMauvePool__factory.connect(
         poolAddress,
         poolAdmin
       );
@@ -65,7 +62,7 @@ export const createAndInitializePoolIfNecessary: CreateAndInitializePoolIfNecess
     }
   } else {
     try {
-      const poolContract = await IMauvePool__factory.connect(pool, poolAdmin);
+      const poolContract = IMauvePool__factory.connect(pool, poolAdmin);
       const { sqrtPriceX96 } = await poolContract.slot0();
       if (sqrtPriceX96.eq(0)) {
         await poolContract.initialize(initialSqrtPriceX96);

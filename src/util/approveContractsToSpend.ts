@@ -1,5 +1,5 @@
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
-import { Contract, ethers } from "ethers";
+import { ethers } from "ethers";
 import { TestERC20 } from "../../typechain";
 
 export const approveContractsToSpend = async (
@@ -7,7 +7,7 @@ export const approveContractsToSpend = async (
   owner: SignerWithAddress,
   addressToApprove: string[]
 ) => {
-  await tokens.forEach(async (token) => {
+  tokens.forEach(async (token) => {
     addressToApprove.forEach(
       async (address) =>
         await token

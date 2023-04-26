@@ -1,5 +1,5 @@
 import { BigNumber, Contract } from "ethers";
-import { FeeAmount } from "../src/util/constants";
+import { FeeAmount } from "../util/constants";
 
 export enum TradeType {
   EXACT_INPUT = "exactInput",

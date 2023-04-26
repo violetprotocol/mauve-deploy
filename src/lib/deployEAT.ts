@@ -3,7 +3,7 @@ import { ethers } from "hardhat";
 import {
   AccessTokenVerifier,
   AccessTokenVerifier__factory,
-} from "../typechain";
+} from "../../typechain";
 
 export async function deployEAT(
   deployer: SignerWithAddress,

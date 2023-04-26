@@ -6,7 +6,7 @@ import "hardhat-watcher";
 import "hardhat-dependency-compiler";
 import "hardhat-contract-sizer";
 
-import "./tasks/deployPool";
+import "./tasks/getSqrtPrice";
 
 export default {
   networks: {

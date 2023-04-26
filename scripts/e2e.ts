@@ -1,18 +1,17 @@
 import { ethers } from "hardhat";
 import { Domain } from "@violetprotocol/ethereum-access-token-helpers/dist/messages";
 
-import { deployEAT } from "./deployEAT";
-import { deployERC20s } from "./deployERC20s";
-import { deployMauve } from "./deployMauve";
-import { deployPool } from "./deployPool";
 import { mintPosition } from "./mintPosition";
-import { performSwap, Swap } from "./performSwap";
-import { getQuote, TradeSingleHop, TradeType } from "./getQuote";
 import { FeeAmount, MaxUint128 } from "../src/util/constants";
 import { encodePriceSqrt } from "../src/util/encodePriceSqrt";
 import { parseEther } from "ethers/lib/utils";
 import { approveContractsToSpend } from "../src/util/approveContractsToSpend";
-import { BigNumber } from "ethers";
+import { deployMauve } from "../src/lib/deployMauve";
+import { deployPool } from "../src/lib/deployPool";
+import { getQuote, TradeSingleHop, TradeType } from "../src/lib/getQuote";
+import { performSwap, Swap } from "../src/lib/performSwap";
+import { deployEAT } from "../src/lib/deployEAT";
+import { deployERC20s } from "../src/lib/deployERC20s";
 
 async function main() {
   // Get all signers
@@ -24,7 +23,6 @@ async function main() {
     eatSigner,
     liquidityProvider,
     trader,
-    trader2,
   ] = signers;
 
   // Deploy EATVerifier
@@ -61,7 +59,6 @@ async function main() {
     FeeAmount.MEDIUM,
     encodePriceSqrt(1, 1)._hex
   );
-  console.log("deployed pool successfully")
 
   await approveContractsToSpend([token0, token1], liquidityProvider, [
     positionManager.address,
@@ -93,7 +90,7 @@ async function main() {
     domain
   );
 
-  console.log("minted Position correctly ")
+  console.log("minted Position correctly " + lpNFTId)
 
   const trade: TradeSingleHop = {
     tokenIn: token0.address,
@@ -119,7 +116,7 @@ async function main() {
   };
 
   await performSwap(router02, swap, trader, eatSigner, domain);
-  console.log("did swap correctly")
+  console.log("Swap works correctly")
 }
 
 // We recommend this pattern to be able to use async/await everywhere

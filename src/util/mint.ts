@@ -1,6 +1,6 @@
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { Domain } from "@violetprotocol/ethereum-access-token-helpers/dist/messages";
-import { BigNumber, ethers, Wallet } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import { FeeAmount, TICK_SPACINGS } from "./constants";
 import { generateAccessTokenForMulticall } from "./generateAccessToken";
 import { getMaxTick, getMinTick } from "./ticks";
@@ -24,7 +24,7 @@ export const mint = async (
   nonFungiblePositionManager: ethers.Contract,
   tokens: ethers.Contract[],
   minter: SignerWithAddress,
-  receiver: SignerWithAddress,
+  _receiver: SignerWithAddress,
   eatSigner: SignerWithAddress,
   domain: Domain
 ): Promise<MintedResults> => {
