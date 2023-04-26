@@ -11,8 +11,7 @@
     "ethereum",
     "smart-contracts",
     "hardhat",
-    "hardhat-plugin",
-    "uniswap"
+    "hardhat-plugin"
   ],
   "scripts": {
     "compile": "hardhat compile",
@@ -31,7 +30,7 @@
   ],
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.2",
-    "@nomiclabs/hardhat-etherscan": "^2.1.8",
+    "@nomiclabs/hardhat-etherscan": "^3.1.2",
     "@nomiclabs/hardhat-waffle": "^2.0.1",
     "@typechain/ethers-v5": "^4.0.0",
     "@types/chai": "^4.1.7",
@@ -61,9 +60,9 @@
   },
   "dependencies": {
     "@openzeppelin/contracts": "^4.8.2",
-    "@violetprotocol/mauve-swap-router-contracts": "1.5.0",
-    "@violetprotocol/mauve-v3-core": "1.2.1",
-    "@violetprotocol/mauve-v3-periphery": "1.8.0",
+    "@violetprotocol/mauve-swap-router-contracts": "1.5.1",
+    "@violetprotocol/mauve-core": "1.2.3",
+    "@violetprotocol/mauve-periphery": "1.8.2",
     "cli-table3": "^0.6.0"
   }
 }

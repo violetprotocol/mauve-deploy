@@ -1,10 +1,7 @@
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { BigNumber } from "ethers";
 import { ethers } from "hardhat";
-import {
-  IUniswapV3Factory__factory,
-  IUniswapV3Pool__factory,
-} from "../../typechain";
+import { IMauveFactory__factory, IMauvePool__factory } from "../../typechain";
 import { FeeAmount } from "./constants";
 
 export type CreateAndInitializePoolIfNecessary = (
@@ -13,7 +10,7 @@ export type CreateAndInitializePoolIfNecessary = (
   token0: string,
   token1: string,
   fee: FeeAmount,
-  initialSqrtPriceX96: BigNumber
+  initialSqrtPriceX96: string
 ) => Promise<string>;
 
 export const createAndInitializePoolIfNecessary: CreateAndInitializePoolIfNecessary = async (
@@ -24,10 +21,16 @@ export const createAndInitializePoolIfNecessary: CreateAndInitializePoolIfNecess
   fee,
   initialSqrtPriceX96
 ) => {
+  const areTokensSorted = BigNumber.from(token0) < BigNumber.from(token1);
+
+  if (!areTokensSorted) {
+    throw new Error("Tokens addresses are not sorted");
+  }
+
   if (!factoryAddress) {
     throw new Error("Missing Factory address");
   }
-  const factory = await IUniswapV3Factory__factory.connect(
+  const factory = await IMauveFactory__factory.connect(
     factoryAddress,
     poolAdmin
   );
@@ -45,7 +48,7 @@ export const createAndInitializePoolIfNecessary: CreateAndInitializePoolIfNecess
         throw new Error("Failed to get pool address from creation");
       }
 
-      const poolContract = await IUniswapV3Pool__factory.connect(
+      const poolContract = await IMauvePool__factory.connect(
         poolAddress,
         poolAdmin
       );
@@ -58,10 +61,7 @@ export const createAndInitializePoolIfNecessary: CreateAndInitializePoolIfNecess
     }
   } else {
     try {
-      const poolContract = await IUniswapV3Pool__factory.connect(
-        pool,
-        poolAdmin
-      );
+      const poolContract = await IMauvePool__factory.connect(pool, poolAdmin);
       const { sqrtPriceX96 } = await poolContract.slot0();
       if (sqrtPriceX96.eq(0)) {
         await poolContract.initialize(initialSqrtPriceX96);

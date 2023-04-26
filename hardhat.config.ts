@@ -6,6 +6,8 @@ import "hardhat-watcher";
 import "hardhat-dependency-compiler";
 import "hardhat-contract-sizer";
 
+import "./tasks/deployPool";
+
 export default {
   networks: {
     localhost: {
@@ -37,6 +39,12 @@ export default {
     },
     optimismKovan: {
       url: `https://optimism-kovan.infura.io/v3/${process.env.INFURA_API_KEY}`,
+    },
+    optimismGoerli: {
+      accounts: [
+        `0x15b856067decade001ce52ba5c91ff040ef550b0859bf26d1d24d04c4b726917`,
+      ],
+      url: `https://opt-goerli.g.alchemy.com/v2/Ay4DBPd3SGpvm_8jJM-MS9MhHoqN8-dr`,
     },
     optimism: {
       url: `https://optimism-mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
@@ -70,8 +78,8 @@ export default {
   dependencyCompiler: {
     paths: [
       "@violetprotocol/ethereum-access-token/contracts/AccessTokenVerifier.sol",
-      "@violetprotocol/mauve-v3-core/contracts/interfaces/IUniswapV3Pool.sol",
-      "@violetprotocol/mauve-v3-core/contracts/interfaces/IUniswapV3Factory.sol",
+      "@violetprotocol/mauve-core/contracts/interfaces/IMauvePool.sol",
+      "@violetprotocol/mauve-core/contracts/interfaces/IMauveFactory.sol",
     ],
   },
 };
