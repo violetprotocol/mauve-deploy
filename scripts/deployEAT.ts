@@ -21,5 +21,6 @@ export async function deployEAT(
   await verifier.connect(eatSigner).rotateIntermediate(eatSigner.address);
   await verifier.connect(eatSigner).activateIssuers([eatSigner.address]);
 
+  console.log("Deployed EAT verifier")
   return verifier;
 }

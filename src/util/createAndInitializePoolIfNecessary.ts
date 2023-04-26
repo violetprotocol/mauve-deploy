@@ -21,6 +21,7 @@ export const createAndInitializePoolIfNecessary: CreateAndInitializePoolIfNecess
   fee,
   initialSqrtPriceX96
 ) => {
+  console.log("Reached CreateAndInitializePoolIfNecessary ****")
   const areTokensSorted = BigNumber.from(token0) < BigNumber.from(token1);
 
   if (!areTokensSorted) {
@@ -30,6 +31,9 @@ export const createAndInitializePoolIfNecessary: CreateAndInitializePoolIfNecess
   if (!factoryAddress) {
     throw new Error("Missing Factory address");
   }
+
+  console.log("Reached CreateAndInitializePoolIfNecessary ****")
+  console.log(IMauveFactory__factory);
   const factory = await IMauveFactory__factory.connect(
     factoryAddress,
     poolAdmin

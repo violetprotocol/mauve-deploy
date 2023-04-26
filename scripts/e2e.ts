@@ -43,8 +43,8 @@ async function main() {
     deployer,
     mauveOwner,
     poolAdmin,
+    "0xB4960F218798c3479E25B0cCc707335216991Fef",
     EATVerifier.address,
-    ""
   );
 
   console.log(`Factory: ${factory.address}`);
@@ -61,6 +61,7 @@ async function main() {
     FeeAmount.MEDIUM,
     encodePriceSqrt(1, 1)._hex
   );
+  console.log("deployed pool successfully")
 
   await approveContractsToSpend([token0, token1], liquidityProvider, [
     positionManager.address,
@@ -73,6 +74,8 @@ async function main() {
     router02.address,
     poolAddress,
   ]);
+
+  console.log("approved contracts to spend")
 
   const domain: Domain = {
     name: "Ethereum Access Token",
@@ -90,6 +93,8 @@ async function main() {
     domain
   );
 
+  console.log("minted Position correctly ")
+
   const trade: TradeSingleHop = {
     tokenIn: token0.address,
     tokenOut: token1.address,
@@ -99,6 +104,8 @@ async function main() {
   };
 
   const quote = await getQuote(quoter, TradeType.EXACT_INPUT_SINGLE, trade);
+
+  console.log("got quote correctly")
 
   console.log(quote);
 
@@ -112,6 +119,7 @@ async function main() {
   };
 
   await performSwap(router02, swap, trader, eatSigner, domain);
+  console.log("did swap correctly")
 }
 
 // We recommend this pattern to be able to use async/await everywhere
