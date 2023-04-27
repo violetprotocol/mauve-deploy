@@ -12,6 +12,7 @@ import { getQuote, TradeSingleHop, TradeType } from "../src/lib/getQuote";
 import { performSwap, Swap } from "../src/lib/performSwap";
 import { deployEAT } from "../src/lib/deployEAT";
 import { deployERC20s } from "../src/lib/deployERC20s";
+import hre from "hardhat"
 
 async function main() {
   // Get all signers
@@ -26,7 +27,7 @@ async function main() {
   ] = signers;
 
   // Deploy EATVerifier
-  const EATVerifier = await deployEAT(deployer, eatSigner);
+  const EATVerifier = await deployEAT(deployer, eatSigner, hre);
 
   // Deploy ERC20 tokens
   const [token0, token1] = await deployERC20s();

@@ -7,6 +7,8 @@ import "hardhat-dependency-compiler";
 import "hardhat-contract-sizer";
 
 import "./tasks/getSqrtPrice";
+import "./tasks/deployMauveContracts";
+import "./tasks/deployEAT";
 
 export default {
   networks: {

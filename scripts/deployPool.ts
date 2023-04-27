@@ -1,15 +1,15 @@
 import { BigNumber } from "ethers";
-import { ethers } from "hardhat";
 import { deployEAT } from "../src/lib/deployEAT";
 import { deployERC20s } from "../src/lib/deployERC20s";
 import { deployMauve } from "../src/lib/deployMauve";
 import { deployPool } from "../src/lib/deployPool";
 import { FeeAmount } from "../src/util/constants";
 import { encodePriceSqrt } from "../src/util/encodePriceSqrt";
+import hre from "hardhat"
 
 
 async function main() {
-  const signers = await ethers.getSigners();
+  const signers = await hre.ethers.getSigners();
   const [
     deployer,
     mauveOwner,
@@ -17,7 +17,7 @@ async function main() {
     eatSigner,
   ] = signers;
   const [token0, token1] = await deployERC20s();
-  const EATVerifier = await deployEAT(deployer, eatSigner);
+  const EATVerifier = await deployEAT(deployer, eatSigner, hre);
   const fee = FeeAmount.MEDIUM;
 
   const { factory } = await deployMauve(

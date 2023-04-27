@@ -1,5 +1,5 @@
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
-import { ethers } from "hardhat";
+import { HardhatRuntimeEnvironment } from "hardhat/types";
 import {
   AccessTokenVerifier,
   AccessTokenVerifier__factory,
@@ -7,10 +7,11 @@ import {
 
 export async function deployEAT(
   deployer: SignerWithAddress,
-  eatSigner: SignerWithAddress
+  eatSigner: SignerWithAddress,
+  hre: HardhatRuntimeEnvironment
 ): Promise<AccessTokenVerifier> {
   const AccessTokenVerifierFactory = <AccessTokenVerifier__factory>(
-    await ethers.getContractFactory("AccessTokenVerifier")
+    await hre.ethers.getContractFactory("AccessTokenVerifier")
   );
 
   const verifier = await AccessTokenVerifierFactory.connect(deployer).deploy(
