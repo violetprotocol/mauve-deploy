@@ -13,3 +13,5 @@ export const TICK_SPACINGS: { [amount in FeeAmount]: number } = {
   [FeeAmount.MEDIUM]: 60,
   [FeeAmount.HIGH]: 200,
 }
+
+export const VIOLET_ID_ADDRESS = "0xB4960F218798c3479E25B0cCc707335216991Fef"

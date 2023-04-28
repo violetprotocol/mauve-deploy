@@ -2,7 +2,7 @@ import { ethers } from "hardhat";
 import { Domain } from "@violetprotocol/ethereum-access-token-helpers/dist/messages";
 
 import { mintPosition } from "./mintPosition";
-import { FeeAmount, MaxUint128 } from "../src/util/constants";
+import { FeeAmount, MaxUint128, VIOLET_ID_ADDRESS } from "../src/util/constants";
 import { encodePriceSqrt } from "../src/util/encodePriceSqrt";
 import { parseEther } from "ethers/lib/utils";
 import { approveContractsToSpend } from "../src/util/approveContractsToSpend";
@@ -42,7 +42,7 @@ async function main() {
     deployer,
     mauveOwner,
     poolAdmin,
-    "0xB4960F218798c3479E25B0cCc707335216991Fef",
+    VIOLET_ID_ADDRESS,
     EATVerifier.address,
   );
 
