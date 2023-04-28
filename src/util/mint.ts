@@ -1,17 +1,9 @@
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { Domain } from "@violetprotocol/ethereum-access-token-helpers/dist/messages";
-import { BigNumber, ethers } from "ethers";
+import { ethers } from "ethers";
 import { FeeAmount, TICK_SPACINGS } from "./constants";
 import { generateAccessTokenForMulticall } from "./generateAccessToken";
 import { getMaxTick, getMinTick } from "./ticks";
-
-export type CreatePoolIfNecessary = (
-  token0: string,
-  token1: string,
-  fee: FeeAmount,
-  initialSqrtPriceX96: BigNumber,
-  value?: { value: number }
-) => Promise<string>;
 
 export type MintedResults = {
   tokenId: number;
