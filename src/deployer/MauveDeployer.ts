@@ -33,22 +33,22 @@ export class MauveDeployer {
 
     // const weth9 = await deployer.deployWETH9();
     const factory = await deployer.deployFactory();
-    console.log("deployed factory");
+    console.log(`Factory deployed at: ${factory.address}`);
     // const router = await deployer.deployRouter(factory.address, WETH9Address);
     const quoter = await deployer.deployQuoter(factory.address, WETH9Address);
-    console.log("deployed quoter");
+    console.log(`Quoter deployed at: ${quoter.address}`);
     const quoterV2 = await deployer.deployQuoterV2(
       factory.address,
       WETH9Address
     );
-    console.log("deployed quoter V2");
+    console.log(`QuoterV2 deployed at: ${quoterV2.address}`);
     const nftDescriptorLibrary = await deployer.deployNFTDescriptorLibrary();
-    console.log("deployed nftdesclib");
+    console.log(`NFTDescriptorLibrary deployed at: ${nftDescriptorLibrary.address}`);
     const positionDescriptor = await deployer.deployPositionDescriptor(
       nftDescriptorLibrary.address,
       WETH9Address
     );
-    console.log("deployed posdesc");
+    console.log(`NFTPositionDescriptor deployed at: ${positionDescriptor.address}`);
     const positionManager = await deployer.deployNonfungiblePositionManager(
       factory.address,
       WETH9Address,
@@ -56,7 +56,7 @@ export class MauveDeployer {
       eatVerifierAddress,
       violetIdAddress
     );
-    console.log("deployed posman");
+    console.log(`NFTPositionManager deployed at: ${positionManager.address}`);
 
     const router02 = await deployer.deployRouter02(
       factory.address,
@@ -64,7 +64,7 @@ export class MauveDeployer {
       WETH9Address,
       eatVerifierAddress
     );
-    console.log("deployed router");
+    console.log(`Router02 deployed at: ${router02.address}`);
 
     await factory.setRole(router02.address, swapRouterBytes32);
     await factory.setRole(positionManager.address, positionManagerBytes32);
