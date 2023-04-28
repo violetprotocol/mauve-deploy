@@ -9,7 +9,6 @@ export const generateAccessToken = async (
   domain: messages.Domain,
   functionName: string,
   caller: Wallet,
-  // contract: EATMulticall,
   contract: ethers.Contract,
   parameters: any[],
   expiry?: BigNumber
