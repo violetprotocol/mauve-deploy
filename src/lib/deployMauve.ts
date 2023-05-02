@@ -12,7 +12,7 @@ export async function deployMauve(
 ) {
   const {
     factory,
-    router02,
+    mauveSwapRouter,
     quoter,
     positionManager,
     positionDescriptor,
@@ -28,7 +28,7 @@ export async function deployMauve(
 
   return {
     factory,
-    router02,
+    mauveSwapRouter,
     quoter,
     positionManager,
     positionDescriptor,

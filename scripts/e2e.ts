@@ -38,7 +38,7 @@ async function main() {
   await token0.connect(trader).mint(parseEther("1000000000000000"));
   await token1.connect(trader).mint(parseEther("1000000000000000"));
 
-  const { factory, router02, quoter, positionManager } = await deployMauve(
+  const { factory, mauveSwapRouter, quoter, positionManager } = await deployMauve(
     deployer,
     mauveOwner,
     poolAdmin,
@@ -47,7 +47,7 @@ async function main() {
   );
 
   console.log(`Factory: ${factory.address}`);
-  console.log(`Router: ${router02.address}`);
+  console.log(`Router: ${mauveSwapRouter.address}`);
   console.log(`Quoter: ${quoter.address}`);
   console.log(`NFT Position manager: ${positionManager.address}`);
   console.log("Mauve deployed");
@@ -63,13 +63,13 @@ async function main() {
 
   await approveContractsToSpend([token0, token1], liquidityProvider, [
     positionManager.address,
-    router02.address,
+    mauveSwapRouter.address,
     poolAddress,
   ]);
 
   await approveContractsToSpend([token0, token1], trader, [
     positionManager.address,
-    router02.address,
+    mauveSwapRouter.address,
     poolAddress,
   ]);
 
@@ -116,7 +116,7 @@ async function main() {
     fee: FeeAmount.MEDIUM,
   };
 
-  await performSwap(router02, swap, trader, eatSigner, domain);
+  await performSwap(mauveSwapRouter, swap, trader, eatSigner, domain);
   console.log("Swap works correctly")
 }
 

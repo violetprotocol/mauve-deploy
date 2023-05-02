@@ -9,7 +9,7 @@ async function main() {
 
   const {
     factory,
-    router02,
+    mauveSwapRouter,
     quoter,
     positionManager,
     positionDescriptor,
@@ -23,7 +23,7 @@ async function main() {
   );
 
   console.log(`Factory deployed at: ${factory.address}`);
-  console.log(`Router deployed at: ${router02.address}`);
+  console.log(`Router deployed at: ${mauveSwapRouter.address}`);
   console.log(`Quoter deployed at: ${quoter.address}`);
   console.log(`PositionManager deployed at: ${positionManager.address}`);
   console.log(`PositionDescriptor deployed at: ${positionDescriptor.address}`);

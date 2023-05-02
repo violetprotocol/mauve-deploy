@@ -32,7 +32,7 @@ task("deploy:mauve")
     // table.push([item, contracts[item].address]);
   table.push(["factory", contracts.factory.address])
   table.push(["quoter", contracts.quoter.address])
-  table.push(["router02", contracts.router02.address])
+  table.push(["mauveSwapRouter", contracts.mauveSwapRouter.address])
   table.push(["positionManager", contracts.positionManager.address])
   table.push(["positionDescriptor", contracts.positionDescriptor.address])
   table.push(["nftDescriptorLibrary", contracts.nftDescriptorLibrary.address])
