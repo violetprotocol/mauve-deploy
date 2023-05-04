@@ -9,8 +9,8 @@ task("deploy:pool")
   .addParam("token1", "Address of token1 of the pool")
   .addParam("factory", "Address of the Mauve factory")
   .addParam("eatVerifier", "Address of the EAT Verifier")
-  .addParam("reverve0", "Initial price of token0")
-  .addParam("reserve1", "Initial price of token1")
+  .addParam("reverve0", "Initial reserve of token0")
+  .addParam("reserve1", "Initial reserve of token1")
   .addParam("fee", "Fee amount of the pool")
   .setAction(async function (taskArguments: TaskArguments, hre) {
 
