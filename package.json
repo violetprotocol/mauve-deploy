@@ -37,7 +37,7 @@
     "@types/fs-extra": "^5.0.4",
     "@types/mocha": "^5.2.6",
     "@types/node": "^8.10.38",
-    "@violetprotocol/ethereum-access-token": "0.2.0-sol07",
+    "@violetprotocol/ethereum-access-token": "0.2.2-sol07",
     "@violetprotocol/ethereum-access-token-helpers": "0.2.0",
     "chai": "^4.2.0",
     "ethereum-waffle": "^3.0.2",
@@ -60,9 +60,9 @@
   },
   "dependencies": {
     "@openzeppelin/contracts": "^4.8.2",
-    "@violetprotocol/mauve-swap-router-contracts": "1.5.1",
-    "@violetprotocol/mauve-core": "1.2.3",
-    "@violetprotocol/mauve-periphery": "1.8.2",
+    "@violetprotocol/mauve-swap-router-contracts": "1.5.2",
+    "@violetprotocol/mauve-core": "1.2.4",
+    "@violetprotocol/mauve-periphery": "1.8.6",
     "cli-table3": "^0.6.0"
   }
 }
