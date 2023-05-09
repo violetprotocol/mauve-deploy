@@ -41,12 +41,17 @@ export class MauveDeployer {
     );
     console.log(`QuoterV2 deployed at: ${quoterV2.address}`);
     const nftDescriptorLibrary = await deployer.deployNFTDescriptorLibrary();
-    console.log(`NFTDescriptorLibrary deployed at: ${nftDescriptorLibrary.address}`);
+    console.log(
+      `NFTDescriptorLibrary deployed at: ${nftDescriptorLibrary.address}`
+    );
     const positionDescriptor = await deployer.deployPositionDescriptor(
       nftDescriptorLibrary.address,
       WETH9Address
     );
-    console.log(`NFTPositionDescriptor deployed at: ${positionDescriptor.address}`);
+    console.log(
+      `NFTPositionDescriptor deployed at: ${positionDescriptor.address}`
+    );
+
     const positionManager = await deployer.deployNonfungiblePositionManager(
       factory.address,
       WETH9Address,
