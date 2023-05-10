@@ -1,6 +1,5 @@
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
-import { BigNumber } from "ethers";
-import { ethers } from "hardhat";
+import { BigNumber, constants } from "ethers";
 import { IMauveFactory__factory, IMauvePool__factory } from "../../typechain";
 import { FeeAmount } from "./constants";
 
@@ -37,7 +36,7 @@ export const createAndInitializePoolIfNecessary: CreateAndInitializePoolIfNecess
   );
   const pool = await factory.getPool(token0, token1, fee);
 
-  if (pool == ethers.constants.AddressZero) {
+  if (pool == constants.AddressZero) {
     try {
       const createdPoolTx = await factory
         .connect(poolAdmin)
@@ -49,10 +48,7 @@ export const createAndInitializePoolIfNecessary: CreateAndInitializePoolIfNecess
         throw new Error("Failed to get pool address from creation");
       }
 
-      const poolContract = IMauvePool__factory.connect(
-        poolAddress,
-        poolAdmin
-      );
+      const poolContract = IMauvePool__factory.connect(poolAddress, poolAdmin);
 
       await poolContract.initialize(initialSqrtPriceX96);
 

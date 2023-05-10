@@ -4,6 +4,9 @@ import { TaskArguments } from "hardhat/types";
 import { deployPool } from "../src/lib/deployPool";
 import { encodePriceSqrt } from "../src/util/encodePriceSqrt";
 
+// Example:
+// npx hardhat deploy:pool --network optimismGoerli --token0 0x4200000000000000000000000000000000000006
+// --token1 0x32307adfFE088e383AFAa721b06436aDaBA47DBE --reserve0 2000 --reserve1 1 --factory 0x6A0cb7d3390E7f8420EB5b4b3278BB0D369C3A97 --fee 3000
 task("deploy:pool")
   .addParam("token0", "Address of token0 of the pool")
   .addParam("token1", "Address of token1 of the pool")

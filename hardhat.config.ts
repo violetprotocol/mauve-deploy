@@ -9,6 +9,7 @@ import "hardhat-contract-sizer";
 import "./tasks/getSqrtPrice";
 import "./tasks/deployMauveContracts";
 import "./tasks/deployEAT";
+import "./tasks/deployPool";
 
 import { resolve } from "path";
 
