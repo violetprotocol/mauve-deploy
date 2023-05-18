@@ -22,7 +22,7 @@ export const createAndInitializePoolIfNecessary: CreateAndInitializePoolIfNecess
 ) => {
   // Creating a pool without the tokens being sorted will result in an initial price
   // being wildly different than expected.
-  const areTokensSorted = BigNumber.from(token0) < BigNumber.from(token1);
+  const areTokensSorted = BigNumber.from(token0).lt(BigNumber.from(token1));
 
   if (!areTokensSorted) {
     throw new Error("Tokens addresses are not sorted");
