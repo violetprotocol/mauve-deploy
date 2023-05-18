@@ -13,13 +13,14 @@ task("deploy:pool")
   .addParam("factory", "Address of the Mauve factory")
   .addParam("reserve0", "Initial reserve of token0")
   .addParam("reserve1", "Initial reserve of token1")
-  .addParam("fee", "Fee amount of the pool")
+  .addParam("fee", "Fee amount of the pool") //  LOW = 500,  MEDIUM = 3000, HIGH = 10000
   .setAction(async function (taskArguments: TaskArguments, hre) {
     const fee = taskArguments.fee;
-    const initialSqrtPrice = encodePriceSqrt(
-      BigNumber.from(taskArguments.reserve0),
-      BigNumber.from(taskArguments.reserve1)
-    );
+    // const initialSqrtPrice = encodePriceSqrt(
+    // BigNumber.from(taskArguments.reserve0),
+    // BigNumber.from(taskArguments.reserve1)
+    // );
+    const initialSqrtPrice = BigNumber.from("2505414483750480000000000000000");
     console.log("InitialSqrtPrice: ", initialSqrtPrice.toString());
     // Make sure the network you are using has an accounts[] in hardhat.config.ts
     // And you have the correct account that has poolAdmin role
