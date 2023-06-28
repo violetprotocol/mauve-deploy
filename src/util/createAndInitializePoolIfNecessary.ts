@@ -1,6 +1,5 @@
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
-import { BigNumber } from "ethers";
-import { ethers } from "hardhat";
+import { BigNumber, constants } from "ethers";
 import { IMauveFactory__factory, IMauvePool__factory } from "../../typechain";
 import { FeeAmount } from "./constants";
 
@@ -21,7 +20,9 @@ export const createAndInitializePoolIfNecessary: CreateAndInitializePoolIfNecess
   fee,
   initialSqrtPriceX96
 ) => {
-  const areTokensSorted = BigNumber.from(token0) > BigNumber.from(token1);
+  // Creating a pool without the tokens being sorted will result in an initial price
+  // being wildly different than expected.
+  const areTokensSorted = BigNumber.from(token0).lt(BigNumber.from(token1));
 
   if (!areTokensSorted) {
     throw new Error("Tokens addresses are not sorted");
@@ -31,13 +32,10 @@ export const createAndInitializePoolIfNecessary: CreateAndInitializePoolIfNecess
     throw new Error("Missing Factory address");
   }
 
-  const factory = IMauveFactory__factory.connect(
-    factoryAddress,
-    poolAdmin
-  );
+  const factory = IMauveFactory__factory.connect(factoryAddress, poolAdmin);
   const pool = await factory.getPool(token0, token1, fee);
 
-  if (pool == ethers.constants.AddressZero) {
+  if (pool == constants.AddressZero) {
     try {
       const createdPoolTx = await factory
         .connect(poolAdmin)
@@ -49,10 +47,7 @@ export const createAndInitializePoolIfNecessary: CreateAndInitializePoolIfNecess
         throw new Error("Failed to get pool address from creation");
       }
 
-      const poolContract = IMauvePool__factory.connect(
-        poolAddress,
-        poolAdmin
-      );
+      const poolContract = IMauvePool__factory.connect(poolAddress, poolAdmin);
 
       await poolContract.initialize(initialSqrtPriceX96);
 
