@@ -9,6 +9,13 @@ import "hardhat-contract-sizer";
 import "./tasks/getSqrtPrice";
 import "./tasks/deployMauveContracts";
 import "./tasks/deployEAT";
+import "./tasks/deployPool";
+
+import { resolve } from "path";
+
+import { config as dotenvConfig } from "dotenv";
+
+dotenvConfig({ path: resolve(__dirname, "./.env") });
 
 export default {
   networks: {
@@ -43,9 +50,7 @@ export default {
       url: `https://optimism-kovan.infura.io/v3/${process.env.INFURA_API_KEY}`,
     },
     optimismGoerli: {
-      accounts: [
-        `0x15b856067decade001ce52ba5c91ff040ef550b0859bf26d1d24d04c4b726917`,
-      ],
+      accounts: [`0x${process.env.PRIVATE_KEY}`],
       url: `https://opt-goerli.g.alchemy.com/v2/Ay4DBPd3SGpvm_8jJM-MS9MhHoqN8-dr`,
     },
     optimism: {
