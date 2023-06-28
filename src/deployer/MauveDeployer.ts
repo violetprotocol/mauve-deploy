@@ -230,7 +230,7 @@ export class MauveDeployer {
     const contract = await factory.deploy(...deployParams);
 
     try {
-      await run("verify:verify", {
+      await this.hre.run("verify:verify", {
         address: contract.address,
         constructorArguments: deployParams,
       });
