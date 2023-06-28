@@ -16,12 +16,14 @@ task("deploy:pool")
   .addParam("fee", "Fee amount of the pool") //  LOW = 500,  MEDIUM = 3000, HIGH = 10000
   .setAction(async function (taskArguments: TaskArguments, hre) {
     const fee = taskArguments.fee;
-    // const initialSqrtPrice = encodePriceSqrt(
-    // BigNumber.from(taskArguments.reserve0),
-    // BigNumber.from(taskArguments.reserve1)
-    // );
-    const initialSqrtPrice = BigNumber.from("2505414483750480000000000000000");
+
+    const initialSqrtPriceAsString = "";
+    if (!initialSqrtPriceAsString) {
+      throw new Error("Please specify an initialSqrtPrice as a string");
+    }
+    const initialSqrtPrice = BigNumber.from(initialSqrtPriceAsString);
     console.log("InitialSqrtPrice: ", initialSqrtPrice.toString());
+
     // Make sure the network you are using has an accounts[] in hardhat.config.ts
     // And you have the correct account that has poolAdmin role
     const signers = await hre.ethers.getSigners();
