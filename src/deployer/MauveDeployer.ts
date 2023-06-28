@@ -1,4 +1,5 @@
 import { Signer, Contract, ContractFactory } from "ethers";
+import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { linkLibraries } from "../util/linkLibraries";
 import { positionManagerBytes32, swapRouterBytes32 } from "../util/roles";
 import WETH9 from "../util/WETH9.json";
@@ -24,64 +25,69 @@ const WETH9Address = "0x4200000000000000000000000000000000000006";
 
 export class MauveDeployer {
   static async deploy(
+    hre: HardhatRuntimeEnvironment,
     actor: Signer,
     violetIdAddress: string,
     eatVerifierAddress: string
   ): Promise<{ [name: string]: Contract }> {
-    const deployer = new MauveDeployer(actor);
+    const deployer = new MauveDeployer(hre, actor);
 
-    // const weth9 = await deployer.deployWETH9();
-    const factory = await deployer.deployFactory();
-    console.log(`Factory deployed at: ${factory.address}`);
-    const quoter = await deployer.deployQuoter(factory.address, WETH9Address);
-    console.log(`Quoter deployed at: ${quoter.address}`);
-    const quoterV2 = await deployer.deployQuoterV2(
-      factory.address,
-      WETH9Address
-    );
-    console.log(`QuoterV2 deployed at: ${quoterV2.address}`);
+    // const factory = await deployer.deployFactory();
+    // console.log(`Factory deployed at: ${factory.address}`);
+    // const quoter = await deployer.deployQuoter(factory.address, WETH9Address);
+    // console.log(`Quoter deployed at: ${quoter.address}`);
+    // const quoterV2 = await deployer.deployQuoterV2(
+    //   factory.address,
+    //   WETH9Address
+    // );
+    // console.log(`QuoterV2 deployed at: ${quoterV2.address}`);
     const nftDescriptorLibrary = await deployer.deployNFTDescriptorLibrary();
-    console.log(`NFTDescriptorLibrary deployed at: ${nftDescriptorLibrary.address}`);
+    console.log(
+      `NFTDescriptorLibrary deployed at: ${nftDescriptorLibrary.address}`
+    );
     const positionDescriptor = await deployer.deployPositionDescriptor(
       nftDescriptorLibrary.address,
       WETH9Address
     );
-    console.log(`NFTPositionDescriptor deployed at: ${positionDescriptor.address}`);
-    const positionManager = await deployer.deployNonfungiblePositionManager(
-      factory.address,
-      WETH9Address,
-      positionDescriptor.address,
-      eatVerifierAddress,
-      violetIdAddress
+    console.log(
+      `NFTPositionDescriptor deployed at: ${positionDescriptor.address}`
     );
-    console.log(`NFTPositionManager deployed at: ${positionManager.address}`);
+    // const positionManager = await deployer.deployNonfungiblePositionManager(
+    //   factory.address,
+    //   WETH9Address,
+    //   positionDescriptor.address,
+    //   eatVerifierAddress,
+    //   violetIdAddress
+    // );
+    // console.log(`NFTPositionManager deployed at: ${positionManager.address}`);
 
-    const mauveSwapRouter = await deployer.deployMauveSwapRouter(
-      factory.address,
-      positionManager.address,
-      WETH9Address,
-      eatVerifierAddress
-    );
-    console.log(`MauveSwapRouter deployed at: ${mauveSwapRouter.address}`);
+    // const mauveSwapRouter = await deployer.deployMauveSwapRouter(
+    //   factory.address,
+    //   positionManager.address,
+    //   WETH9Address,
+    //   eatVerifierAddress
+    // );
+    // console.log(`MauveSwapRouter deployed at: ${mauveSwapRouter.address}`);
 
-    await factory.setRole(mauveSwapRouter.address, swapRouterBytes32);
-    await factory.setRole(positionManager.address, positionManagerBytes32);
+    // await factory.setRole(mauveSwapRouter.address, swapRouterBytes32);
+    // await factory.setRole(positionManager.address, positionManagerBytes32);
 
     return {
-      // weth9,
-      factory,
-      mauveSwapRouter,
-      quoter,
-      quoterV2,
+      // factory,
+      // mauveSwapRouter,
+      // quoter,
+      // quoterV2,
       nftDescriptorLibrary,
       positionDescriptor,
-      positionManager,
+      // positionManager,
     };
   }
 
+  hre: HardhatRuntimeEnvironment;
   deployer: Signer;
 
-  constructor(deployer: Signer) {
+  constructor(hre: HardhatRuntimeEnvironment, deployer: Signer) {
+    this.hre = hre;
     this.deployer = deployer;
   }
 
@@ -221,6 +227,19 @@ export class MauveDeployer {
     actor: Signer
   ) {
     const factory = new ContractFactory(abi, bytecode, actor);
-    return await factory.deploy(...deployParams);
+    const contract = await factory.deploy(...deployParams);
+
+    try {
+      await run("verify:verify", {
+        address: contract.address,
+        constructorArguments: deployParams,
+      });
+    } catch (error) {
+      console.log(
+        `Error verifying contract at address ${contract.address}: ${error}`
+      );
+    }
+
+    return contract;
   }
 }

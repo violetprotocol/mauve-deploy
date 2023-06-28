@@ -2,8 +2,10 @@ import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { MauveDeployer } from "../deployer/MauveDeployer";
 import { ownerBytes32, poolAdminBytes32 } from "../util/roles";
 import { IMauveFactory } from "../../typechain";
+import { HardhatRuntimeEnvironment } from "hardhat/types";
 
 export async function deployMauve(
+  hre: HardhatRuntimeEnvironment,
   deployer: SignerWithAddress,
   mauveOwner: SignerWithAddress,
   poolAdmin: SignerWithAddress,
@@ -17,14 +19,14 @@ export async function deployMauve(
     positionManager,
     positionDescriptor,
     nftDescriptorLibrary,
-  } = await MauveDeployer.deploy(deployer, violetId, EATVerifier);
+  } = await MauveDeployer.deploy(hre, deployer, violetId, EATVerifier);
 
-  await (factory as IMauveFactory)
-    .connect(deployer)
-    .setRole(mauveOwner.address, ownerBytes32);
-  await (factory as IMauveFactory)
-    .connect(mauveOwner)
-    .setRole(poolAdmin.address, poolAdminBytes32);
+  // await (factory as IMauveFactory)
+  //   .connect(deployer)
+  //   .setRole(mauveOwner.address, ownerBytes32);
+  // await (factory as IMauveFactory)
+  //   .connect(mauveOwner)
+  //   .setRole(poolAdmin.address, poolAdminBytes32);
 
   return {
     factory,

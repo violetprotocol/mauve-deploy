@@ -1,5 +1,5 @@
 import "@nomiclabs/hardhat-ethers";
-import "@nomiclabs/hardhat-etherscan";
+import "@nomicfoundation/hardhat-verify";
 import "@nomiclabs/hardhat-waffle";
 import "hardhat-typechain";
 import "hardhat-watcher";
@@ -9,6 +9,10 @@ import "hardhat-contract-sizer";
 import "./tasks/getSqrtPrice";
 import "./tasks/deployMauveContracts";
 import "./tasks/deployEAT";
+
+if (!process.env.INFURA_API_KEY) {
+  throw new Error("Missing OP API KEY");
+}
 
 export default {
   networks: {
@@ -47,15 +51,19 @@ export default {
         `0x15b856067decade001ce52ba5c91ff040ef550b0859bf26d1d24d04c4b726917`,
       ],
       url: `https://opt-goerli.g.alchemy.com/v2/Ay4DBPd3SGpvm_8jJM-MS9MhHoqN8-dr`,
+      gasPrice: 2000000000,
     },
     optimism: {
       url: `https://optimism-mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
     },
   },
   etherscan: {
-    // Your API key for Etherscan
-    // Obtain one at https://etherscan.io/
-    apiKey: process.env.ETHERSCAN_API_KEY,
+    apiKey: {
+      mainnet: process.env.ETHERSCAN_API_KEY || "",
+      optimisticEthereum: process.env.OPTIMISM_API_KEY || "",
+      optimisticGoerli: process.env.OPTIMISM_API_KEY || "",
+      goerli: process.env.ETHERSCAN_API_KEY || "",
+    },
   },
   contractSizer: {
     runOnCompile: false,

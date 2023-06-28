@@ -13,15 +13,16 @@ task("deploy:mauve")
       mauveOwner,
       poolAdmin,
     ] = signers;
-    
 
-  const contracts = await deployMauve(
-    deployer,
-    mauveOwner,
-    poolAdmin,
-    taskArguments.vid,
-    taskArguments.eatVerifier
-  );
+
+    const contracts = await deployMauve(
+      hre,
+      deployer,
+      mauveOwner,
+      poolAdmin,
+      taskArguments.vid,
+      taskArguments.eatVerifier
+    );
 
   console.log("Mauve deployed");
 
