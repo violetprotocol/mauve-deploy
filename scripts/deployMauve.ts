@@ -23,10 +23,10 @@ async function main() {
     eatVerifier
   );
 
-  // console.log(`Factory deployed at: ${factory.address}`);
-  // console.log(`Router deployed at: ${mauveSwapRouter.address}`);
-  // console.log(`Quoter deployed at: ${quoter.address}`);
-  // console.log(`PositionManager deployed at: ${positionManager.address}`);
+  console.log(`Factory deployed at: ${factory.address}`);
+  console.log(`Router deployed at: ${mauveSwapRouter.address}`);
+  console.log(`Quoter deployed at: ${quoter.address}`);
+  console.log(`PositionManager deployed at: ${positionManager.address}`);
   console.log(`PositionDescriptor deployed at: ${positionDescriptor.address}`);
   console.log(
     `PositionDescriptorLibrary deployed at: ${nftDescriptorLibrary.address}`

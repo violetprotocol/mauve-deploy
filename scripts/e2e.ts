@@ -38,13 +38,15 @@ async function main() {
   await token0.connect(trader).mint(parseEther("1000000000000000"));
   await token1.connect(trader).mint(parseEther("1000000000000000"));
 
-  const { factory, mauveSwapRouter, quoter, positionManager } = await deployMauve(
-    deployer,
-    mauveOwner,
-    poolAdmin,
-    VIOLET_ID_ADDRESS,
-    EATVerifier.address,
-  );
+  const { factory, mauveSwapRouter, quoter, positionManager } =
+    await deployMauve(
+      hre,
+      deployer,
+      mauveOwner,
+      poolAdmin,
+      VIOLET_ID_ADDRESS,
+      EATVerifier.address
+    );
 
   console.log(`Factory: ${factory.address}`);
   console.log(`Router: ${mauveSwapRouter.address}`);

@@ -21,12 +21,12 @@ export async function deployMauve(
     nftDescriptorLibrary,
   } = await MauveDeployer.deploy(hre, deployer, violetId, EATVerifier);
 
-  // await (factory as IMauveFactory)
-  //   .connect(deployer)
-  //   .setRole(mauveOwner.address, ownerBytes32);
-  // await (factory as IMauveFactory)
-  //   .connect(mauveOwner)
-  //   .setRole(poolAdmin.address, poolAdminBytes32);
+  await(factory as IMauveFactory)
+    .connect(deployer)
+    .setRole(mauveOwner.address, ownerBytes32);
+  await(factory as IMauveFactory)
+    .connect(mauveOwner)
+    .setRole(poolAdmin.address, poolAdminBytes32);
 
   return {
     factory,

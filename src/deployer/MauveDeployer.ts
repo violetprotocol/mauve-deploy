@@ -32,15 +32,15 @@ export class MauveDeployer {
   ): Promise<{ [name: string]: Contract }> {
     const deployer = new MauveDeployer(hre, actor);
 
-    // const factory = await deployer.deployFactory();
-    // console.log(`Factory deployed at: ${factory.address}`);
-    // const quoter = await deployer.deployQuoter(factory.address, WETH9Address);
-    // console.log(`Quoter deployed at: ${quoter.address}`);
-    // const quoterV2 = await deployer.deployQuoterV2(
-    //   factory.address,
-    //   WETH9Address
-    // );
-    // console.log(`QuoterV2 deployed at: ${quoterV2.address}`);
+    const factory = await deployer.deployFactory();
+    console.log(`Factory deployed at: ${factory.address}`);
+    const quoter = await deployer.deployQuoter(factory.address, WETH9Address);
+    console.log(`Quoter deployed at: ${quoter.address}`);
+    const quoterV2 = await deployer.deployQuoterV2(
+      factory.address,
+      WETH9Address
+    );
+    console.log(`QuoterV2 deployed at: ${quoterV2.address}`);
     const nftDescriptorLibrary = await deployer.deployNFTDescriptorLibrary();
     console.log(
       `NFTDescriptorLibrary deployed at: ${nftDescriptorLibrary.address}`
@@ -52,34 +52,34 @@ export class MauveDeployer {
     console.log(
       `NFTPositionDescriptor deployed at: ${positionDescriptor.address}`
     );
-    // const positionManager = await deployer.deployNonfungiblePositionManager(
-    //   factory.address,
-    //   WETH9Address,
-    //   positionDescriptor.address,
-    //   eatVerifierAddress,
-    //   violetIdAddress
-    // );
-    // console.log(`NFTPositionManager deployed at: ${positionManager.address}`);
+    const positionManager = await deployer.deployNonfungiblePositionManager(
+      factory.address,
+      WETH9Address,
+      positionDescriptor.address,
+      eatVerifierAddress,
+      violetIdAddress
+    );
+    console.log(`NFTPositionManager deployed at: ${positionManager.address}`);
 
-    // const mauveSwapRouter = await deployer.deployMauveSwapRouter(
-    //   factory.address,
-    //   positionManager.address,
-    //   WETH9Address,
-    //   eatVerifierAddress
-    // );
-    // console.log(`MauveSwapRouter deployed at: ${mauveSwapRouter.address}`);
+    const mauveSwapRouter = await deployer.deployMauveSwapRouter(
+      factory.address,
+      positionManager.address,
+      WETH9Address,
+      eatVerifierAddress
+    );
+    console.log(`MauveSwapRouter deployed at: ${mauveSwapRouter.address}`);
 
-    // await factory.setRole(mauveSwapRouter.address, swapRouterBytes32);
-    // await factory.setRole(positionManager.address, positionManagerBytes32);
+    await factory.setRole(mauveSwapRouter.address, swapRouterBytes32);
+    await factory.setRole(positionManager.address, positionManagerBytes32);
 
     return {
-      // factory,
-      // mauveSwapRouter,
-      // quoter,
-      // quoterV2,
+      factory,
+      mauveSwapRouter,
+      quoter,
+      quoterV2,
       nftDescriptorLibrary,
       positionDescriptor,
-      // positionManager,
+      positionManager,
     };
   }
 
