@@ -4,8 +4,8 @@ import { deployMauve } from "../src/lib/deployMauve";
 
 async function main() {
   const [signer] = await hre.ethers.getSigners();
-  const eatVerifier = "0x5Dbe2B4648FFAF2867F8Ad07d42003F5ce4b7d2C";
-  const violetId = "0x9A119a53cb065202d631ba01d55e3850eDcf3EAa";
+  const eatVerifier = "0x638734c011F68d2C6d65c7529E02e65C8Fd3B401";
+  const violetId = "0x4Bc70da1D9eF635949878E28e9940678af912540";
 
   const {
     factory,
