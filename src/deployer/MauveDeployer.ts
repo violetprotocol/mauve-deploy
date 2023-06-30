@@ -195,7 +195,8 @@ export class MauveDeployer {
         weth9Address,
         "0x4554480000000000000000000000000000000000000000000000000000000000",
       ],
-      this.deployer
+      this.deployer,
+      { NFTDescriptor: nftDescriptorLibraryAddress }
     )) as Contract;
   }
 
@@ -224,15 +225,23 @@ export class MauveDeployer {
     abi: any,
     bytecode: string,
     deployParams: Array<any>,
-    actor: Signer
+    actor: Signer,
+    libraries?: Record<string, string>
   ) {
+    console.log(`------------`);
+    console.log(`Deploying contract...`);
+
     const factory = new ContractFactory(abi, bytecode, actor);
     const contract = await factory.deploy(...deployParams);
+
+    console.log(`🚀 Contract deployed! Waiting for 5 confirmations...`);
+    await contract.deployTransaction.wait(5);
 
     try {
       await this.hre.run("verify:verify", {
         address: contract.address,
         constructorArguments: deployParams,
+        libraries,
       });
     } catch (error) {
       console.log(
@@ -240,6 +249,7 @@ export class MauveDeployer {
       );
     }
 
+    console.log(`✅ Done deploying contract.`);
     return contract;
   }
 }
