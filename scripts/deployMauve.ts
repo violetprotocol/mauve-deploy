@@ -11,6 +11,7 @@ async function main() {
     factory,
     mauveSwapRouter,
     quoter,
+    quoterV2,
     positionManager,
     positionDescriptor,
     nftDescriptorLibrary,
@@ -23,9 +24,11 @@ async function main() {
     eatVerifier
   );
 
+  console.log(`----- ALL CONTRACTS DEPLOYED ------`);
   console.log(`Factory deployed at: ${factory.address}`);
-  console.log(`Router deployed at: ${mauveSwapRouter.address}`);
+  console.log(`Mauve Swap Router deployed at: ${mauveSwapRouter.address}`);
   console.log(`Quoter deployed at: ${quoter.address}`);
+  console.log(`Quoter V2 deployed at: ${quoterV2.address}`);
   console.log(`PositionManager deployed at: ${positionManager.address}`);
   console.log(`PositionDescriptor deployed at: ${positionDescriptor.address}`);
   console.log(
