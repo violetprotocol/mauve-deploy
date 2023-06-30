@@ -14,11 +14,18 @@ import "./tasks/deployPool";
 import { resolve } from "path";
 
 import { config as dotenvConfig } from "dotenv";
+import {
+  MAUVE_CORE_COMPILER_SETTINGS,
+  MAUVE_PERIPHERY_LOWEST_COMPILER_SETTINGS,
+  MAUVE_PERIPHERY_LOW_COMPILER_SETTINGS,
+  MAUVE_PERIPHERY_DEFAULT_COMPILER_SETTINGS,
+  MAUVE_SWAP_ROUTER_COMPILER_SETTINGS,
+} from "./src/compilerSettings";
 
 dotenvConfig({ path: resolve(__dirname, "./.env") });
 
 if (!process.env.INFURA_API_KEY) {
-  throw new Error("Missing OP API KEY");
+  throw new Error("Missing Infura API KEY");
 }
 
 export default {
@@ -78,10 +85,25 @@ export default {
       {
         version: "0.7.6",
       },
-      {
-        version: "0.8.0",
-      },
     ],
+    overrides: {
+      "@violetprotocol/mauve-core/contracts/MauveFactory.sol":
+        MAUVE_CORE_COMPILER_SETTINGS,
+      "@violetprotocol/mauve-core/contracts/MauvePool.sol":
+        MAUVE_CORE_COMPILER_SETTINGS,
+      "@violetprotocol/mauve-periphery/contracts/libraries/NFTDescriptor.sol":
+        MAUVE_PERIPHERY_LOWEST_COMPILER_SETTINGS,
+      "@violetprotocol/mauve-periphery/contracts/NonfungiblePositionManager.sol":
+        MAUVE_PERIPHERY_LOW_COMPILER_SETTINGS,
+      "@violetprotocol/mauve-periphery/contracts/lens/MauveInterfaceMulticall.sol":
+        MAUVE_PERIPHERY_DEFAULT_COMPILER_SETTINGS,
+      "@violetprotocol/mauve-swap-router-contracts/contracts/MauveSwapRouter.sol":
+        MAUVE_SWAP_ROUTER_COMPILER_SETTINGS,
+      "@violetprotocol/mauve-swap-router-contracts/contracts/lens/Quoter.sol":
+        MAUVE_SWAP_ROUTER_COMPILER_SETTINGS,
+      "@violetprotocol/mauve-swap-router-contracts/contracts/lens/QuoterV2.sol":
+        MAUVE_SWAP_ROUTER_COMPILER_SETTINGS,
+    },
   },
   watcher: {
     test: {
@@ -95,6 +117,16 @@ export default {
       "@violetprotocol/ethereum-access-token/contracts/AccessTokenVerifier.sol",
       "@violetprotocol/mauve-core/contracts/interfaces/IMauvePool.sol",
       "@violetprotocol/mauve-core/contracts/interfaces/IMauveFactory.sol",
+      "@violetprotocol/mauve-core/contracts/MauveFactory.sol",
+      "@violetprotocol/mauve-swap-router-contracts/contracts/lens/Quoter.sol",
+      "@violetprotocol/mauve-swap-router-contracts/contracts/lens/QuoterV2.sol",
+      "@violetprotocol/mauve-swap-router-contracts/contracts/MauveSwapRouter.sol",
+      "@violetprotocol/mauve-periphery/contracts/libraries/NFTDescriptor.sol",
+      // TODO: Fix compilation of NonfungibleTokenPositionDescriptor
+      // See https://github.com/violetprotocol/mauve-deploy/issues/7
+      // "@violetprotocol/mauve-periphery/contracts/NonfungibleTokenPositionDescriptor.sol",
+      "@violetprotocol/mauve-periphery/contracts/NonfungiblePositionManager.sol",
+      "@violetprotocol/mauve-periphery/contracts/lens/MauveInterfaceMulticall.sol",
     ],
   },
 };
