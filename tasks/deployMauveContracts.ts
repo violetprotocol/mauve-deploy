@@ -11,14 +11,13 @@ task("deploy:mauve")
     const [deployer] = signers;
 
     const contracts = await deployMauve(
+      hre,
       deployer,
       deployer,
       deployer,
       taskArguments.vid,
       taskArguments.eatverifier
     );
-
-    console.log("Mauve deployed");
 
     const table = new CliTable3({
       head: ["Contract", "Address"],

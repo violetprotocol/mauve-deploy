@@ -1,10 +1,10 @@
-import { ethers } from "hardhat";
+import * as hre from "hardhat";
 import { MauveDeployer } from "../src/deployer/MauveDeployer";
 
 async function main() {
-  const [signer] = await ethers.getSigners();
+  const [signer] = await hre.ethers.getSigners();
 
-  const deployer = new MauveDeployer(signer);
+  const deployer = new MauveDeployer(hre, signer);
   const mauveInterfaceMulticall =
     await deployer.deployMauveInterfaceMulticall();
 

@@ -607,6 +607,21 @@
     mcl-wasm "^0.7.1"
     rustbn.js "~0.2.0"
 
+"@nomicfoundation/hardhat-verify@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@nomicfoundation/hardhat-verify/-/hardhat-verify-1.0.3.tgz#573b326fe0f58dcdc527e8c11bd5a6336eb52bc4"
+  integrity sha512-KUj4O/Hd8QB6cr/rxEmRG0zcDjRUNYhWbjtGGwE4lUNuaEhVIDt/cHGJtF/A6lANQR0mpaxC6fwojhzice/ykQ==
+  dependencies:
+    "@ethersproject/abi" "^5.1.2"
+    "@ethersproject/address" "^5.0.2"
+    cbor "^8.1.0"
+    chalk "^2.4.2"
+    debug "^4.1.1"
+    lodash.clonedeep "^4.5.0"
+    semver "^6.3.0"
+    table "^6.8.0"
+    undici "^5.14.0"
+
 "@nomicfoundation/solidity-analyzer-darwin-arm64@0.1.1":
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/@nomicfoundation/solidity-analyzer-darwin-arm64/-/solidity-analyzer-darwin-arm64-0.1.1.tgz#4c858096b1c17fe58a474fe81b46815f93645c15"
@@ -678,22 +693,6 @@
   resolved "https://registry.yarnpkg.com/@nomiclabs/hardhat-ethers/-/hardhat-ethers-2.2.2.tgz#812d48929c3bf8fe840ec29eab4b613693467679"
   integrity sha512-NLDlDFL2us07C0jB/9wzvR0kuLivChJWCXTKcj3yqjZqMoYp7g7wwS157F70VHx/+9gHIBGzak5pKDwG8gEefA==
 
-"@nomiclabs/hardhat-etherscan@^3.1.2":
-  version "3.1.7"
-  resolved "https://registry.yarnpkg.com/@nomiclabs/hardhat-etherscan/-/hardhat-etherscan-3.1.7.tgz#72e3d5bd5d0ceb695e097a7f6f5ff6fcbf062b9a"
-  integrity sha512-tZ3TvSgpvsQ6B6OGmo1/Au6u8BrAkvs1mIC/eURA3xgIfznUZBhmpne8hv7BXUzw9xNL3fXdpOYgOQlVMTcoHQ==
-  dependencies:
-    "@ethersproject/abi" "^5.1.2"
-    "@ethersproject/address" "^5.0.2"
-    cbor "^8.1.0"
-    chalk "^2.4.2"
-    debug "^4.1.1"
-    fs-extra "^7.0.1"
-    lodash "^4.17.11"
-    semver "^6.3.0"
-    table "^6.8.0"
-    undici "^5.14.0"
-
 "@nomiclabs/hardhat-waffle@^2.0.1":
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/@nomiclabs/hardhat-waffle/-/hardhat-waffle-2.0.5.tgz#97c217f1db795395c04404291937edb528f3f218"
@@ -704,15 +703,10 @@
   resolved "https://registry.yarnpkg.com/@openzeppelin/contracts-upgradeable/-/contracts-upgradeable-4.8.2.tgz#edef522bdbc46d478481391553bababdd2199e27"
   integrity sha512-zIggnBwemUmmt9IS73qxi+tumALxCY4QEs3zLCII78k0Gfse2hAOdAkuAeLUzvWUpneMUfFE5sGHzEUSTvn4Ag==
 
-"@openzeppelin/contracts@3.4.2-solc-0.7":
+"@openzeppelin/contracts@3.4.2-solc-0.7", "@openzeppelin/contracts@^3.4.2-solc-0.7":
   version "3.4.2-solc-0.7"
   resolved "https://registry.yarnpkg.com/@openzeppelin/contracts/-/contracts-3.4.2-solc-0.7.tgz#38f4dbab672631034076ccdf2f3201fab1726635"
   integrity sha512-W6QmqgkADuFcTLzHL8vVoNBtkwjvQRpYIAom7KiUNoLKghyx3FgH0GBjt8NRvigV1ZmMOBllvE1By1C+bi8WpA==
-
-"@openzeppelin/contracts@^4.8.2":
-  version "4.8.2"
-  resolved "https://registry.yarnpkg.com/@openzeppelin/contracts/-/contracts-4.8.2.tgz#d815ade0027b50beb9bcca67143c6bcc3e3923d6"
-  integrity sha512-kEUOgPQszC0fSYWpbh2kT94ltOJwj1qfT2DWo+zVttmGmf97JZ99LspePNaeeaLhCImaHVeBbjaQFZQn7+Zc5g==
 
 "@resolver-engine/core@^0.3.3":
   version "0.3.3"
@@ -1013,31 +1007,31 @@
   resolved "https://registry.yarnpkg.com/@violetprotocol/ethereum-access-token/-/ethereum-access-token-0.2.2-sol07.tgz#71801e4e92f4cdb8b59eec9f81986443da96aaaa"
   integrity sha512-ltLpdD/w9lnmhP4CrT6RAiNrF+gYYSjvK/Y3a7lbW+ikUX+kPn9jaCH2pNxz6Ebvxl2tN8SEq6suxFDPmA/B4g==
 
-"@violetprotocol/mauve-core@1.2.4":
-  version "1.2.4"
-  resolved "https://registry.yarnpkg.com/@violetprotocol/mauve-core/-/mauve-core-1.2.4.tgz#3535851af45acfb79ca1da80ca1f06362e052d59"
-  integrity sha512-axqr4ps4yA5UzE4h6TgwqoJeN0cubF1c8g9aRt0ogZ8QutcF1BGuarWn0VA5WJnVTPeXm9k1b0TcwAKdxwZazQ==
+"@violetprotocol/mauve-core@1.2.5":
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/@violetprotocol/mauve-core/-/mauve-core-1.2.5.tgz#cfa211a979df93e5318c4b22c6f89a6b18836cda"
+  integrity sha512-EtiBSbR4Ic1E4Uw2oz5p6nKXUtNrjuZWCymUZHYeJs/0HQXYnNKKU3x1mkRLLzW10QHPxZKYEGWzjoK3J9iyLA==
 
-"@violetprotocol/mauve-periphery@1.8.6":
-  version "1.8.6"
-  resolved "https://registry.yarnpkg.com/@violetprotocol/mauve-periphery/-/mauve-periphery-1.8.6.tgz#00107b33a6e3d750c465ac1530d16ac624c2f9b0"
-  integrity sha512-5A5RVi0uuj0mO7uqs7BI6K702i+nmEjPePIrl4/vWo8bNsRqLSNCjJQ8Q34j7GYkG0qjwMrCvRuSExAjWbh2Mw==
+"@violetprotocol/mauve-periphery@1.8.7":
+  version "1.8.7"
+  resolved "https://registry.yarnpkg.com/@violetprotocol/mauve-periphery/-/mauve-periphery-1.8.7.tgz#d73b27ae897f53c17194b9151c469b5861ace25f"
+  integrity sha512-E8pAOhHB4nBh/dPS3Ojg8qDyCvU8q4JenASVupHnbexbMosjL93NwQUGrPa/v98zUzBuV8dnNKfhozvNYyCvmw==
   dependencies:
     "@openzeppelin/contracts" "3.4.2-solc-0.7"
     "@violetprotocol/ethereum-access-token" "0.2.2-sol07"
-    "@violetprotocol/mauve-core" "1.2.4"
+    "@violetprotocol/mauve-core" "1.2.5"
     "@violetprotocol/violetid" "1.2.3"
     base64-sol "1.0.1"
     hardhat-watcher "^2.1.1"
 
-"@violetprotocol/mauve-swap-router-contracts@1.5.2":
-  version "1.5.2"
-  resolved "https://registry.yarnpkg.com/@violetprotocol/mauve-swap-router-contracts/-/mauve-swap-router-contracts-1.5.2.tgz#791e10cfd80ee25496157977f27520280fcae893"
-  integrity sha512-BH6yE2DMgy2fBV6rZ4O1VnWrVDFeQSzcoGT01uf9pJmuj7fQFuvmZSby7H5ruhkqvTGlXq9Hyw7RWWcJFfDSWg==
+"@violetprotocol/mauve-swap-router-contracts@1.5.3":
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/@violetprotocol/mauve-swap-router-contracts/-/mauve-swap-router-contracts-1.5.3.tgz#70aa337d7c990cd58f06af12559a3474f5e6ae11"
+  integrity sha512-qOXPL7vHM2iyxYv23uZFKt68qPRtd3bSrPqr2NhkYTcc385yEp5eQMnmVbETHwlZlFaTOrVGjM8xF5tdiNnqnw==
   dependencies:
     "@openzeppelin/contracts" "3.4.2-solc-0.7"
-    "@violetprotocol/mauve-core" "1.2.4"
-    "@violetprotocol/mauve-periphery" "1.8.6"
+    "@violetprotocol/mauve-core" "1.2.5"
+    "@violetprotocol/mauve-periphery" "1.8.7"
     dotenv "^14.2.0"
     hardhat-watcher "^2.1.1"
 
@@ -5480,6 +5474,11 @@ lodash.assign@^4.0.3, lodash.assign@^4.0.6:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/lodash.assign/-/lodash.assign-4.2.0.tgz#0d99f3ccd7a6d261d19bdaeb9245005d285808e7"
   integrity sha512-hFuH8TY+Yji7Eja3mGiuAxBqLagejScbG8GbG0j6o9vzn0YL14My+ktnqtZgFTosKymC9/44wP6s7xyuLfnClw==
+
+lodash.clonedeep@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/lodash.clonedeep/-/lodash.clonedeep-4.5.0.tgz#e23f3f9c4f8fbdde872529c1071857a086e5ccef"
+  integrity sha512-H5ZhCF25riFd9uB5UCkVKo61m3S/xZk1x4wA6yp/L3RFP6Z/eHH1ymQcGLo7J3GMPfm0V/7m1tryHuGVxpqEBQ==
 
 lodash.truncate@^4.4.2:
   version "4.4.2"

@@ -1,4 +1,5 @@
 import { Signer, Contract, ContractFactory } from "ethers";
+import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { linkLibraries } from "../util/linkLibraries";
 import { positionManagerBytes32, swapRouterBytes32 } from "../util/roles";
 import WETH9 from "../util/WETH9.json";
@@ -24,13 +25,13 @@ const WETH9Address = "0x4200000000000000000000000000000000000006";
 
 export class MauveDeployer {
   static async deploy(
+    hre: HardhatRuntimeEnvironment,
     actor: Signer,
     violetIdAddress: string,
     eatVerifierAddress: string
   ): Promise<{ [name: string]: Contract }> {
-    const deployer = new MauveDeployer(actor);
+    const deployer = new MauveDeployer(hre, actor);
 
-    // const weth9 = await deployer.deployWETH9();
     const factory = await deployer.deployFactory();
     console.log(`Factory deployed at: ${factory.address}`);
     const quoter = await deployer.deployQuoter(factory.address, WETH9Address);
@@ -51,7 +52,6 @@ export class MauveDeployer {
     console.log(
       `NFTPositionDescriptor deployed at: ${positionDescriptor.address}`
     );
-
     const positionManager = await deployer.deployNonfungiblePositionManager(
       factory.address,
       WETH9Address,
@@ -73,7 +73,6 @@ export class MauveDeployer {
     await factory.setRole(positionManager.address, positionManagerBytes32);
 
     return {
-      // weth9,
       factory,
       mauveSwapRouter,
       quoter,
@@ -84,9 +83,11 @@ export class MauveDeployer {
     };
   }
 
+  hre: HardhatRuntimeEnvironment;
   deployer: Signer;
 
-  constructor(deployer: Signer) {
+  constructor(hre: HardhatRuntimeEnvironment, deployer: Signer) {
+    this.hre = hre;
     this.deployer = deployer;
   }
 
@@ -194,7 +195,8 @@ export class MauveDeployer {
         weth9Address,
         "0x4554480000000000000000000000000000000000000000000000000000000000",
       ],
-      this.deployer
+      this.deployer,
+      { NFTDescriptor: nftDescriptorLibraryAddress }
     )) as Contract;
   }
 
@@ -223,9 +225,31 @@ export class MauveDeployer {
     abi: any,
     bytecode: string,
     deployParams: Array<any>,
-    actor: Signer
+    actor: Signer,
+    libraries?: Record<string, string>
   ) {
+    console.log(`------------`);
+    console.log(`Deploying contract...`);
+
     const factory = new ContractFactory(abi, bytecode, actor);
-    return await factory.deploy(...deployParams);
+    const contract = await factory.deploy(...deployParams);
+
+    console.log(`🚀 Contract deployed! Waiting for 5 confirmations...`);
+    await contract.deployTransaction.wait(5);
+
+    try {
+      await this.hre.run("verify:verify", {
+        address: contract.address,
+        constructorArguments: deployParams,
+        libraries,
+      });
+    } catch (error) {
+      console.log(
+        `Error verifying contract at address ${contract.address}: ${error}`
+      );
+    }
+
+    console.log(`✅ Done deploying contract.`);
+    return contract;
   }
 }
