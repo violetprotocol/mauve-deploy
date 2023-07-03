@@ -25,7 +25,7 @@ import {
 dotenvConfig({ path: resolve(__dirname, "./.env") });
 
 if (!process.env.INFURA_API_KEY) {
-  throw new Error("Missing Infura API KEY");
+  throw new Error("Missing OP API KEY");
 }
 
 export default {
@@ -62,7 +62,7 @@ export default {
     },
     optimismGoerli: {
       accounts: [`0x${process.env.PRIVATE_KEY}`],
-      url: `https://opt-goerli.g.alchemy.com/v2/Ay4DBPd3SGpvm_8jJM-MS9MhHoqN8-dr`,
+      url: `https://opt-goerli.g.alchemy.com/v2/${process.env.ALCHEMY_OP_GOERLI_KEY}`,
       gasPrice: 2000000000,
     },
     optimism: {
