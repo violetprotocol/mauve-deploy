@@ -1,4 +1,5 @@
 import "@nomiclabs/hardhat-ethers";
+import "@nomicfoundation/hardhat-ledger";
 import "@nomicfoundation/hardhat-verify";
 import "@nomiclabs/hardhat-waffle";
 import "hardhat-typechain";
@@ -24,9 +25,46 @@ import {
 
 dotenvConfig({ path: resolve(__dirname, "./.env") });
 
-if (!process.env.INFURA_API_KEY) {
-  throw new Error("Missing OP API KEY");
+// Ensure that we have all the environment variables we need.
+const mnemonic: string | undefined = process.env.MNEMONIC;
+const privateKey: string | undefined = process.env.PRIVATE_KEY;
+const ledgerAddress: string | undefined = process.env.LEDGER_ACCOUNT_ADDRESS;
+
+if (!privateKey && !mnemonic && !ledgerAddress) {
+  throw new Error(
+    "Please set a ledger address, a PRIVATE_KEY or MNEMONIC in a .env file"
+  );
 }
+
+if (!process.env.INFURA_API_KEY) {
+  throw new Error("Missing INFURA API KEY");
+}
+
+// If a ledger address is defined, it will use that and nothing else.
+// If a private key is defined, it will use it and nothing else.
+// Otherwise, it will use the mnemonic set in env.
+const getAccounts = () => {
+  if (ledgerAddress) {
+    return {
+      accounts: undefined,
+      ledgerAccounts: [ledgerAddress],
+    };
+  } else if (privateKey) {
+    return {
+      accounts: [`0x${process.env.PRIVATE_KEY}`],
+      ledgerAccounts: undefined,
+    };
+  } else if (mnemonic) {
+    return {
+      accounts: {
+        count: 20,
+        mnemonic,
+        path: "m/44'/60'/0'/0",
+      },
+      ledgerAccounts: undefined,
+    };
+  }
+};
 
 export default {
   networks: {
@@ -37,35 +75,37 @@ export default {
       allowUnlimitedContractSize: false,
     },
     mainnet: {
-      url: `https://mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
+      ...getAccounts(),
+      url: `https://eth-mainnet.g.alchemy.com/v2/${process.env.ALCHEMY_MAINNET_KEY}`,
     },
     ropsten: {
+      ...getAccounts(),
       url: `https://ropsten.infura.io/v3/${process.env.INFURA_API_KEY}`,
     },
     rinkeby: {
+      ...getAccounts(),
       url: `https://rinkeby.infura.io/v3/${process.env.INFURA_API_KEY}`,
     },
     goerli: {
+      ...getAccounts(),
       url: `https://goerli.infura.io/v3/${process.env.INFURA_API_KEY}`,
     },
-    kovan: {
-      url: `https://kovan.infura.io/v3/${process.env.INFURA_API_KEY}`,
-    },
     arbitrumRinkeby: {
+      ...getAccounts(),
       url: `https://arbitrum-rinkeby.infura.io/v3/${process.env.INFURA_API_KEY}`,
     },
     arbitrum: {
+      ...getAccounts(),
       url: `https://arbitrum-mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
     },
-    optimismKovan: {
-      url: `https://optimism-kovan.infura.io/v3/${process.env.INFURA_API_KEY}`,
-    },
     optimismGoerli: {
+      ...getAccounts(),
       accounts: [`0x${process.env.PRIVATE_KEY}`],
       url: `https://opt-goerli.g.alchemy.com/v2/${process.env.ALCHEMY_OP_GOERLI_KEY}`,
       gasPrice: 2000000000,
     },
     optimism: {
+      ...getAccounts(),
       url: `https://optimism-mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
     },
   },
