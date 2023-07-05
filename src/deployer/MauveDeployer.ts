@@ -69,8 +69,17 @@ export class MauveDeployer {
     );
     console.log(`MauveSwapRouter deployed at: ${mauveSwapRouter.address}`);
 
+    console.log(
+      `Assigning Swap Router role to (${mauveSwapRouter.address})...`
+    );
     await factory.setRole(mauveSwapRouter.address, swapRouterBytes32);
+    console.log(`✅ Swap Router role assigned.`);
+
+    console.log(
+      `Assigning Position Manager role to (${positionManager.address})...`
+    );
     await factory.setRole(positionManager.address, positionManagerBytes32);
+    console.log(`✅ Position Manager role assigned.`);
 
     return {
       factory,

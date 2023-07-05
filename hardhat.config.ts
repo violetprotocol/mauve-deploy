@@ -1,4 +1,5 @@
 import "@nomiclabs/hardhat-ethers";
+import "@nomicfoundation/hardhat-ledger";
 import "@nomicfoundation/hardhat-verify";
 import "@nomiclabs/hardhat-waffle";
 import "hardhat-typechain";
@@ -21,60 +22,105 @@ import {
   MAUVE_PERIPHERY_DEFAULT_COMPILER_SETTINGS,
   MAUVE_SWAP_ROUTER_COMPILER_SETTINGS,
 } from "./src/compilerSettings";
+import { HardhatUserConfig } from "hardhat/types";
 
 dotenvConfig({ path: resolve(__dirname, "./.env") });
 
-if (!process.env.INFURA_API_KEY) {
-  throw new Error("Missing OP API KEY");
+// Ensure that we have all the environment variables we need.
+const mnemonic: string | undefined = process.env.MNEMONIC;
+const privateKey: string | undefined = process.env.PRIVATE_KEY;
+const ledgerAddress: string | undefined = process.env.LEDGER_ACCOUNT_ADDRESS;
+
+if (!privateKey && !mnemonic && !ledgerAddress) {
+  throw new Error(
+    "Please set a ledger address, a PRIVATE_KEY or MNEMONIC in a .env file"
+  );
 }
 
-export default {
+if (!process.env.INFURA_API_KEY) {
+  throw new Error("Missing INFURA API KEY");
+}
+
+// If a ledger address is defined, it will use that and nothing else.
+// If a private key is defined, it will use it and nothing else.
+// Otherwise, it will use the mnemonic set in env.
+const getAccounts = () => {
+  if (ledgerAddress) {
+    return {
+      accounts: undefined,
+      ledgerAccounts: [ledgerAddress],
+    };
+  } else if (privateKey) {
+    return {
+      accounts: [`0x${process.env.PRIVATE_KEY}`],
+      ledgerAccounts: undefined,
+    };
+  } else if (mnemonic) {
+    return {
+      accounts: {
+        count: 20,
+        mnemonic,
+        path: "m/44'/60'/0'/0",
+      },
+      ledgerAccounts: undefined,
+    };
+  }
+};
+
+const config: HardhatUserConfig = {
   networks: {
     localhost: {
+      accounts: {
+        mnemonic,
+      },
       url: `http://localhost:8545`,
     },
     hardhat: {
+      accounts: {
+        mnemonic,
+      },
       allowUnlimitedContractSize: false,
     },
     mainnet: {
-      url: `https://mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
+      ...getAccounts(),
+      url: `https://eth-mainnet.g.alchemy.com/v2/${process.env.ALCHEMY_MAINNET_KEY}`,
     },
     ropsten: {
+      ...getAccounts(),
       url: `https://ropsten.infura.io/v3/${process.env.INFURA_API_KEY}`,
     },
     rinkeby: {
+      ...getAccounts(),
       url: `https://rinkeby.infura.io/v3/${process.env.INFURA_API_KEY}`,
     },
     goerli: {
+      ...getAccounts(),
       url: `https://goerli.infura.io/v3/${process.env.INFURA_API_KEY}`,
     },
-    kovan: {
-      url: `https://kovan.infura.io/v3/${process.env.INFURA_API_KEY}`,
-    },
     arbitrumRinkeby: {
+      ...getAccounts(),
       url: `https://arbitrum-rinkeby.infura.io/v3/${process.env.INFURA_API_KEY}`,
     },
     arbitrum: {
+      ...getAccounts(),
       url: `https://arbitrum-mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
     },
-    optimismKovan: {
-      url: `https://optimism-kovan.infura.io/v3/${process.env.INFURA_API_KEY}`,
-    },
     optimismGoerli: {
-      accounts: [`0x${process.env.PRIVATE_KEY}`],
+      ...getAccounts(),
       url: `https://opt-goerli.g.alchemy.com/v2/${process.env.ALCHEMY_OP_GOERLI_KEY}`,
       gasPrice: 2000000000,
     },
     optimism: {
+      ...getAccounts(),
       url: `https://optimism-mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
     },
   },
   etherscan: {
     apiKey: {
       mainnet: process.env.ETHERSCAN_API_KEY || "",
-      optimisticEthereum: process.env.OPTIMISM_API_KEY || "",
-      optimisticGoerli: process.env.OPTIMISM_API_KEY || "",
       goerli: process.env.ETHERSCAN_API_KEY || "",
+      optimisticEthereum: process.env.ETHERSCAN_OPTIMISM_API_KEY || "",
+      optimisticGoerli: process.env.ETHERSCAN_OPTIMISM_API_KEY || "",
     },
   },
   contractSizer: {
@@ -130,3 +176,5 @@ export default {
     ],
   },
 };
+
+export default config;

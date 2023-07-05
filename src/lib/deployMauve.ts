@@ -22,12 +22,17 @@ export async function deployMauve(
     nftDescriptorLibrary,
   } = await MauveDeployer.deploy(hre, deployer, violetId, EATVerifier);
 
+  console.log(`Setting mauveOwner (${mauveOwner.address}) as owner...`);
   await(factory as IMauveFactory)
     .connect(deployer)
     .setRole(mauveOwner.address, ownerBytes32);
+  console.log(`✅ Owner role assigned.`);
+
+  console.log(`Setting poolAdmin (${poolAdmin.address}) as poolAdmin...`);
   await(factory as IMauveFactory)
     .connect(mauveOwner)
     .setRole(poolAdmin.address, poolAdminBytes32);
+  console.log(`✅ PoolAdmin role assigned.`);
 
   return {
     factory,
