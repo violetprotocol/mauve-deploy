@@ -22,6 +22,7 @@ import {
   MAUVE_PERIPHERY_DEFAULT_COMPILER_SETTINGS,
   MAUVE_SWAP_ROUTER_COMPILER_SETTINGS,
 } from "./src/compilerSettings";
+import { HardhatUserConfig } from "hardhat/types";
 
 dotenvConfig({ path: resolve(__dirname, "./.env") });
 
@@ -66,12 +67,18 @@ const getAccounts = () => {
   }
 };
 
-export default {
+const config: HardhatUserConfig = {
   networks: {
     localhost: {
+      accounts: {
+        mnemonic,
+      },
       url: `http://localhost:8545`,
     },
     hardhat: {
+      accounts: {
+        mnemonic,
+      },
       allowUnlimitedContractSize: false,
     },
     mainnet: {
@@ -100,7 +107,6 @@ export default {
     },
     optimismGoerli: {
       ...getAccounts(),
-      accounts: [`0x${process.env.PRIVATE_KEY}`],
       url: `https://opt-goerli.g.alchemy.com/v2/${process.env.ALCHEMY_OP_GOERLI_KEY}`,
       gasPrice: 2000000000,
     },
@@ -170,3 +176,5 @@ export default {
     ],
   },
 };
+
+export default config;
