@@ -29,6 +29,7 @@
     "README.md"
   ],
   "devDependencies": {
+    "@nomicfoundation/hardhat-ledger": "^1.0.0",
     "@nomicfoundation/hardhat-verify": "^1.0.3",
     "@nomiclabs/hardhat-ethers": "^2.0.2",
     "@nomiclabs/hardhat-waffle": "^2.0.1",
