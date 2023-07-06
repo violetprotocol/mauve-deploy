@@ -6,6 +6,8 @@ import { deployMauve } from "../src/lib/deployMauve";
 task("deploy:mauve")
   .addParam("vid", "Address of the violetId contract")
   .addParam("eatverifier", "Address of the EAT Verifier")
+  .addParam("owner", "Address to set as the factory owner")
+  .addParam("admin", "Address to set as the pool admin")
   .setAction(async function (taskArguments: TaskArguments, hre) {
     const signers = await hre.ethers.getSigners();
     const [deployer] = signers;
@@ -13,8 +15,8 @@ task("deploy:mauve")
     const contracts = await deployMauve(
       hre,
       deployer,
-      deployer,
-      deployer,
+      taskArguments.owner,
+      taskArguments.admin,
       taskArguments.vid,
       taskArguments.eatverifier
     );
