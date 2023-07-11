@@ -17,9 +17,9 @@ async function main() {
     nftDescriptorLibrary,
   } = await deployMauve(
     hre,
-    signer as any as SignerWithAddress,
-    signer as any as SignerWithAddress,
-    signer as any as SignerWithAddress,
+    (signer as any) as SignerWithAddress,
+    signer.address,
+    signer.address,
     violetId,
     eatVerifier
   );

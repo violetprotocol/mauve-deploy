@@ -5,8 +5,7 @@ async function main() {
   const [signer] = await hre.ethers.getSigners();
 
   const deployer = new MauveDeployer(hre, signer);
-  const mauveInterfaceMulticall =
-    await deployer.deployMauveInterfaceMulticall();
+  const mauveInterfaceMulticall = await deployer.deployMauveInterfaceMulticall();
 
   console.log(
     `MauveInterfaceMulticall deployed at: ${mauveInterfaceMulticall.address}`
