@@ -2,7 +2,11 @@ import { ethers } from "hardhat";
 import { Domain } from "@violetprotocol/ethereum-access-token-helpers/dist/messages";
 
 import { mintPosition } from "./mintPosition";
-import { FeeAmount, MaxUint128, VIOLET_ID_ADDRESS } from "../src/util/constants";
+import {
+  FeeAmount,
+  MaxUint128,
+  VIOLET_ID_ADDRESS,
+} from "../src/util/constants";
 import { encodePriceSqrt } from "../src/util/encodePriceSqrt";
 import { parseEther } from "ethers/lib/utils";
 import { approveContractsToSpend } from "../src/util/approveContractsToSpend";
@@ -12,7 +16,7 @@ import { getQuote, TradeSingleHop, TradeType } from "../src/lib/getQuote";
 import { performSwap, Swap } from "../src/lib/performSwap";
 import { deployEAT } from "../src/lib/deployEAT";
 import { deployERC20s } from "../src/lib/deployERC20s";
-import hre from "hardhat"
+import hre from "hardhat";
 
 async function main() {
   // Get all signers
@@ -38,15 +42,19 @@ async function main() {
   await token0.connect(trader).mint(parseEther("1000000000000000"));
   await token1.connect(trader).mint(parseEther("1000000000000000"));
 
-  const { factory, mauveSwapRouter, quoter, positionManager } =
-    await deployMauve(
-      hre,
-      deployer,
-      mauveOwner,
-      poolAdmin,
-      VIOLET_ID_ADDRESS,
-      EATVerifier.address
-    );
+  const {
+    factory,
+    mauveSwapRouter,
+    quoter,
+    positionManager,
+  } = await deployMauve(
+    hre,
+    deployer,
+    mauveOwner.address,
+    poolAdmin.address,
+    VIOLET_ID_ADDRESS,
+    EATVerifier.address
+  );
 
   console.log(`Factory: ${factory.address}`);
   console.log(`Router: ${mauveSwapRouter.address}`);
@@ -75,7 +83,7 @@ async function main() {
     poolAddress,
   ]);
 
-  console.log("approved contracts to spend")
+  console.log("approved contracts to spend");
 
   const domain: Domain = {
     name: "Ethereum Access Token",
@@ -93,7 +101,7 @@ async function main() {
     domain
   );
 
-  console.log("minted Position correctly " + lpNFTId)
+  console.log("minted Position correctly " + lpNFTId);
 
   const trade: TradeSingleHop = {
     tokenIn: token0.address,
@@ -105,7 +113,7 @@ async function main() {
 
   const quote = await getQuote(quoter, TradeType.EXACT_INPUT_SINGLE, trade);
 
-  console.log("got quote correctly")
+  console.log("got quote correctly");
 
   console.log(quote);
 
@@ -119,7 +127,7 @@ async function main() {
   };
 
   await performSwap(mauveSwapRouter, swap, trader, eatSigner, domain);
-  console.log("Swap works correctly")
+  console.log("Swap works correctly");
 }
 
 // We recommend this pattern to be able to use async/await everywhere

@@ -14,6 +14,7 @@
     "hardhat-plugin"
   ],
   "scripts": {
+    "price": "hardhat run scripts/calculateSqrtPrice.ts",
     "compile": "hardhat compile",
     "typechain": "hardhat typechain",
     "lint:fix": "prettier --write 'src/**/*.{js,ts}' 'test/**/*.{js,ts}' && tslint --fix --config tslint.json --project tsconfig.json",
@@ -40,6 +41,7 @@
     "@types/node": "^8.10.38",
     "@violetprotocol/ethereum-access-token": "0.2.2-sol07",
     "@violetprotocol/ethereum-access-token-helpers": "0.2.0",
+    "bignumber.js": "^9.1.1",
     "chai": "^4.2.0",
     "ethereum-waffle": "^3.0.2",
     "ethers": "^5.0.8",
