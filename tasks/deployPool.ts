@@ -11,18 +11,12 @@ task("deploy:pool")
   .addParam("token0", "Address of token0 of the pool")
   .addParam("token1", "Address of token1 of the pool")
   .addParam("factory", "Address of the Mauve factory")
-  .addParam("reserve0", "Initial reserve of token0")
-  .addParam("reserve1", "Initial reserve of token1")
+  .addParam("price", "The initial pool price as sqrtX96 price")
   .addParam("fee", "Fee amount of the pool") //  LOW = 500,  MEDIUM = 3000, HIGH = 10000
   .setAction(async function (taskArguments: TaskArguments, hre) {
     const fee = taskArguments.fee;
 
-    const initialSqrtPriceAsString = "";
-    if (!initialSqrtPriceAsString) {
-      throw new Error("Please specify an initialSqrtPrice as a string");
-    }
-    const initialSqrtPrice = BigNumber.from(initialSqrtPriceAsString);
-    console.log("InitialSqrtPrice: ", initialSqrtPrice.toString());
+    const initialSqrtPrice = BigNumber.from(taskArguments.price);
 
     // Make sure the network you are using has an accounts[] in hardhat.config.ts
     // And you have the correct account that has poolAdmin role
