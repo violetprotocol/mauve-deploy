@@ -18,6 +18,13 @@ async function main() {
   if (tokenA == tokenB) throw new Error("Tokens must be different");
 
   const { token0, token1 } = await getTokens(tokenA, tokenB);
+
+  console.log(
+    "Now we will calculate price. You will be ask to provide an amount for each token. This will be a ratio of tokens that will form the price."
+  );
+  console.log(
+    "Example: Amount of TokenA 1000 and Amount of TokenB 10000 is a price of 1000/10000 = 0.1 TokenA per 1 TokenB"
+  );
   const amount0 = await retry(
     `Please provide amount of ${token0.symbol}: `,
     validateAmount
@@ -40,6 +47,8 @@ async function main() {
 
   const sqrtPriceX96 = ratio.sqrt().times(Q96);
 
+  console.log(`Token0: ${token0.address}`);
+  console.log(`Token1: ${token1.address}`);
   console.log(
     `The SqrtPriceX96 value to initialize the pool with is: ${sqrtPriceX96.toFixed(
       0
