@@ -8,6 +8,7 @@ task("deploy:mauve")
   .addParam("eatverifier", "Address of the EAT Verifier")
   .addParam("owner", "Address to set as the factory owner")
   .addParam("admin", "Address to set as the pool admin")
+  .addParam("weth", "Address of the Wrapped ETH contract")
   .setAction(async function (taskArguments: TaskArguments, hre) {
     const signers = await hre.ethers.getSigners();
     const [deployer] = signers;
@@ -18,7 +19,8 @@ task("deploy:mauve")
       taskArguments.owner,
       taskArguments.admin,
       taskArguments.vid,
-      taskArguments.eatverifier
+      taskArguments.eatverifier,
+      taskArguments.weth
     );
 
     const table = new CliTable3({
