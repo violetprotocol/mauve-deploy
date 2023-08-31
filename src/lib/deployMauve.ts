@@ -10,7 +10,8 @@ export async function deployMauve(
   mauveOwner: string,
   poolAdmin: string,
   violetId: string,
-  EATVerifier: string
+  EATVerifier: string,
+  WETH9Address: string,
 ) {
   const {
     factory,
@@ -20,7 +21,7 @@ export async function deployMauve(
     positionManager,
     positionDescriptor,
     nftDescriptorLibrary,
-  } = await MauveDeployer.deploy(hre, deployer, violetId, EATVerifier);
+  } = await MauveDeployer.deploy(hre, deployer, violetId, EATVerifier, WETH9Address);
 
   console.log(`Setting poolAdmin (${poolAdmin}) as poolAdmin...`);
   await (factory as IMauveFactory)

@@ -21,14 +21,13 @@ const artifacts: { [name: string]: ContractJson } = {
 // type INonfungiblePositionManager = Contract;
 // type IMauveFactory = Contract;
 
-const WETH9Address = "0x4200000000000000000000000000000000000006";
-
 export class MauveDeployer {
   static async deploy(
     hre: HardhatRuntimeEnvironment,
     actor: Signer,
     violetIdAddress: string,
-    eatVerifierAddress: string
+    eatVerifierAddress: string,
+    WETH9Address: string
   ): Promise<{ [name: string]: Contract }> {
     const deployer = new MauveDeployer(hre, actor);
 
