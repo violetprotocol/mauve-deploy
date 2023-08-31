@@ -34,7 +34,7 @@ export const MAUVE_PERIPHERY_LOW_COMPILER_SETTINGS = {
     evmVersion: "istanbul",
     optimizer: {
       enabled: true,
-      runs: 555,
+      runs: 450,
     },
     metadata: {
       bytecodeHash: "none",
@@ -48,7 +48,7 @@ export const MAUVE_PERIPHERY_LOWEST_COMPILER_SETTINGS = {
     evmVersion: "istanbul",
     optimizer: {
       enabled: true,
-      runs: 900,
+      runs: 450,
     },
     metadata: {
       bytecodeHash: "none",
