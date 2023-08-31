@@ -64,8 +64,8 @@
   "dependencies": {
     "@openzeppelin/contracts": "^3.4.2-solc-0.7",
     "@violetprotocol/mauve-core": "1.2.5",
-    "@violetprotocol/mauve-periphery": "1.8.7",
-    "@violetprotocol/mauve-swap-router-contracts": "1.5.3",
+    "@violetprotocol/mauve-periphery": "1.8.8",
+    "@violetprotocol/mauve-swap-router-contracts": "1.5.4",
     "cli-table3": "^0.6.0"
   }
 }
